@@ -30,9 +30,9 @@ exports.handler = async (event) => {
 
   const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
-  // Tus datos de GitHub
-  const owner = "AdrianCrea038";
-  const repo = "leash-to-legacy2";
+  // ===== DATOS DE TU NUEVO REPOSITORIO =====
+  const owner = "leashtolegacy";        // ← CAMBIADO
+  const repo = "leash-to-legacy";       // ← CAMBIADO
   const path = "site-data.json";
   const branch = "main";
   const content = Buffer.from(JSON.stringify(data, null, 2)).toString("base64");
@@ -49,6 +49,7 @@ exports.handler = async (event) => {
       sha = file.sha;
     } catch (err) {
       // Archivo no existe, se creará nuevo
+      console.log("Archivo no existe, se creará uno nuevo");
     }
 
     await octokit.rest.repos.createOrUpdateFileContents({
@@ -67,6 +68,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ success: true, message: "Archivo actualizado en GitHub" }),
     };
   } catch (error) {
+    console.error("Error en GitHub:", error);
     return {
       statusCode: 500,
       headers,
