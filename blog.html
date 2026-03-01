@@ -3,11 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blog | Leash to Legacy - Dog Obedience & Service Dog Training</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="login.css"/>
-  <link rel="stylesheet" href="blog.css">
+  <title>Blog | Leash to Legacy</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.min.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="css/blog.css">
 </head>
 <body class="blog-page">
 
@@ -25,13 +32,12 @@
           <li><a href="index.html">Home</a></li>
           <li class="dropdown">
             <a href="#" class="service-link">
-              Services
-              <i class="fas fa-chevron-down arrow"></i>
+              Services <i class="fas fa-chevron-down arrow"></i>
             </a>
             <ul class="dropdown-content">
               <li><a href="puppy-concierge.html">Puppy Concierge</a></li>
               <li><a href="boarding-service.html">Boarding Service</a></li>
-              <li><a href="Training-Services.html">Training Services</a></li>
+              <li><a href="training-services.html">Training Services</a></li>
             </ul>
           </li>
           <li><a href="index.html#about">About Us</a></li>
@@ -43,8 +49,8 @@
       <div class="header-right">
         <span class="phone"><i class="fas fa-phone-alt"></i> 904-563-7550</span>
         <div class="login-group">
-          <img src="IMG/icono-login.png" alt="Icono de login" class="login-icon" width="26">
-          <a href="login.html" class="login">Login</a>
+          <img src="IMG/icono-login.png" alt="Login" class="login-icon" width="26">
+          <a href="#" class="login-btn">Login</a>
         </div>
       </div>
 
@@ -55,8 +61,8 @@
   <!-- Hero del blog -->
   <section class="blog-hero">
     <div class="blog-hero-bg"></div>
-    <img src="IMG/huella.png" alt="" class="blog-paw blog-paw-1" aria-hidden="true">
-    <img src="IMG/huella.png" alt="" class="blog-paw blog-paw-2" aria-hidden="true">
+    <img src="IMG/huella.png" alt="" class="blog-paw blog-paw-1">
+    <img src="IMG/huella.png" alt="" class="blog-paw blog-paw-2">
     <div class="blog-hero-inner">
       <span class="blog-badge">Leash to Legacy</span>
       <h1>Our Blog</h1>
@@ -64,11 +70,10 @@
     </div>
   </section>
 
-  <!-- Artículo principal (contenido editable desde el panel) -->
+  <!-- Contenido principal -->
   <main class="blog-main">
     <article class="blog-article" id="blog-article">
       <div class="blog-article-inner">
-        <!-- Imagen destacada con marco creativo -->
         <div class="blog-image-wrap">
           <div class="blog-image-frame">
             <img id="blog-image" src="IMG/bio.png" alt="Article image" class="blog-featured-img">
@@ -76,18 +81,18 @@
           <div class="blog-image-accent"></div>
         </div>
 
-        <!-- Contenido de texto -->
         <div class="blog-content-wrap">
-          <h2 id="blog-title" class="blog-title">Loading...</h2>
+          <h2 id="blog-title" class="blog-title">Positive Reinforcement: Why It Works for Your Dog</h2>
           <div id="blog-body" class="blog-body">
-            <p>Loading content...</p>
+            <p>At Leash to Legacy we believe that training should be a joyful experience for both you and your pup. Positive reinforcement isn't just a method — it's a philosophy that builds trust, keeps your dog attentive, and creates a stronger bond.</p>
+            <p>We start with basics like sit, down, and touch/boop in the comfort of your home. Seeing your house and your dog in action helps us design a teaching schedule the whole family can be part of. Patience and repetition are key, and we're here to support you every step of the way.</p>
+            <p>Reach out on our contact page — you're going to make a great team!</p>
           </div>
         </div>
       </div>
 
-      <!-- Decoración suave -->
-      <img src="IMG/Pata-perro.png" alt="" class="blog-deco blog-deco-pata" aria-hidden="true">
-      <img src="IMG/Cola-perro.png" alt="" class="blog-deco blog-deco-cola" aria-hidden="true">
+      <img src="IMG/Pata-perro.png" alt="" class="blog-deco blog-deco-pata">
+      <img src="IMG/Cola-perro.png" alt="" class="blog-deco blog-deco-cola">
     </article>
   </main>
 
@@ -99,72 +104,66 @@
         <p><a href="mailto:shawn@leashtolegacy.org">shawn@leashtolegacy.org</a></p>
         <p><a href="tel:+19045637550">904-563-7550</a></p>
         <div class="social">
-          <a href="#" target="_blank" aria-label="Facebook"><img src="IMG/facebook-logo.png" alt="Facebook" class="social-icon"></a>
-          <a href="#" target="_blank" aria-label="Instagram"><img src="IMG/instagram-logo.png" alt="Instagram" class="social-icon"></a>
-          <a href="#" target="_blank" aria-label="TikTok"><img src="IMG/tiktok-logo.png" alt="TikTok" class="social-icon"></a>
-          <a href="#" target="_blank" aria-label="YouTube"><img src="IMG/youtube-logo.png" alt="YouTube" class="social-icon"></a>
-          <a href="#" target="_blank" aria-label="WhatsApp"><img src="IMG/whatsapp-logo.png" alt="WhatsApp" class="social-icon"></a>
+          <a href="#" target="_blank" aria-label="Facebook"><img src="IMG/facebook-logo.png" alt="Facebook"></a>
+          <a href="#" target="_blank" aria-label="Instagram"><img src="IMG/instagram-logo.png" alt="Instagram"></a>
+          <a href="#" target="_blank" aria-label="TikTok"><img src="IMG/tiktok-logo.png" alt="TikTok"></a>
+          <a href="#" target="_blank" aria-label="YouTube"><img src="IMG/youtube-logo.png" alt="YouTube"></a>
+          <a href="#" target="_blank" aria-label="WhatsApp"><img src="IMG/whatsapp-logo.png" alt="WhatsApp"></a>
         </div>
       </div>
     </div>
     <p class="copyright">© 2025 Leash to Legacy. All rights reserved.</p>
   </footer>
 
-  <!-- Carga de contenido desde site-data.json / localStorage -->
+  <!-- Script de login -->
   <script>
-    function renderBlogContent(data) {
-      if (!data.blog) return;
-      const titleEl = document.getElementById('blog-title');
-      const bodyEl = document.getElementById('blog-body');
-      const imageEl = document.getElementById('blog-image');
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginBtns = document.querySelectorAll('.login, .login-btn, [class*="login"]');
+      loginBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'login.html';
+        });
+      });
+    });
+  </script>
 
-      if (titleEl && data.blog.titulo) {
-        titleEl.textContent = data.blog.titulo;
-      }
-      if (bodyEl && data.blog.texto) {
-        var texto = data.blog.texto.trim();
-        var parrafos = texto.split(/\n\n+/).filter(function(p) { return p.trim().length > 0; });
-        if (parrafos.length === 0) parrafos = [texto];
-        bodyEl.innerHTML = parrafos.map(function(p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join('');
-      }
-      if (imageEl && data.blog.imagen) {
-        imageEl.src = data.blog.imagen;
-        imageEl.onerror = function() { this.src = 'IMG/bio.png'; };
+  <!-- Script para cargar contenido del blog (SIN CACHÉ) -->
+  <script>
+    async function loadBlogContent() {
+      try {
+        const response = await fetch('/site-data.json?t=' + Date.now());
+        const data = await response.json();
+        console.log('Blog data:', data);
+        
+        if (data.blog) {
+          const titleEl = document.getElementById('blog-title');
+          const bodyEl = document.getElementById('blog-body');
+          const imageEl = document.getElementById('blog-image');
+
+          if (titleEl && data.blog.titulo) {
+            titleEl.textContent = data.blog.titulo;
+          }
+          if (bodyEl && data.blog.texto) {
+            const texto = data.blog.texto.trim();
+            const parrafos = texto.split(/\n\n+/).filter(p => p.trim().length > 0);
+            bodyEl.innerHTML = (parrafos.length ? parrafos : [texto]).map(p => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
+          }
+          if (imageEl && data.blog.imagen) {
+            imageEl.src = data.blog.imagen;
+          }
+        }
+      } catch (error) {
+        console.log('Usando contenido por defecto del blog');
       }
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var backup = localStorage.getItem('site_data_backup');
-      var backupTime = localStorage.getItem('site_data_backup_time');
-      var hasRecentBackup = backup && backupTime && (new Date() - new Date(backupTime)) / (1000 * 60 * 60) < 24;
-
-      if (hasRecentBackup) {
-        try {
-          var data = JSON.parse(backup);
-          renderBlogContent(data);
-          return;
-        } catch (e) {
-          console.error('Error loading backup:', e);
-        }
+    
+    loadBlogContent();
+    
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        loadBlogContent();
       }
-
-      fetch('/site-data.json')
-        .then(function(r) {
-          if (!r.ok) throw new Error('Could not load site-data.json');
-          return r.json();
-        })
-        .then(function(data) {
-          renderBlogContent(data);
-        })
-        .catch(function(err) {
-          console.error('Error loading from server:', err);
-          if (backup) {
-            try {
-              var data = JSON.parse(backup);
-              renderBlogContent(data);
-            } catch (e) {}
-          }
-        });
     });
   </script>
 </body>

@@ -3,346 +3,282 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Control Panel - Leash to Legacy</title>
+  <title>Admin Panel - Leash to Legacy</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="admin-panel.css">
+  <link rel="stylesheet" href="css/admin-panel.css">
+  <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+  <script>
+    (function() {
+      const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+      if (!isAuthenticated) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      window.logout = function() {
+        if (confirm('Are you sure you want to logout?')) {
+          localStorage.removeItem('isAuthenticated');
+          localStorage.removeItem('user');
+          window.location.href = 'login.html';
+        }
+      };
+    })();
+  </script>
 
-    <script>
-  // Protección básica del panel
-  if (localStorage.getItem('isAuthenticated') !== 'true') {
-    // Not logged in — redirect to login
-    window.location.href = 'login.html';
-  }
-
-  // Logout button
-  function logout() {
-    if (confirm('Do you want to log out?')) {
-      localStorage.removeItem('isAuthenticated');
-      localStorage.removeItem('user');
-      window.location.href = 'login.html';
-    }
-  }
-</script>
-
- <header>
-  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-    <h1>Control Panel - Leash to Legacy</h1>
-    <div style="display: flex; gap: 10px;">
-      <a href="index.html" style="background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: 500;">Back to Home</a>
-      <button onclick="logout()" style="background: #e74c3c; padding: 10px 20px; border: none; color: white; border-radius: 5px; cursor: pointer; font-weight: 500;">Log Out</button>
+  <header>
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 style="margin: 0;">Admin Panel - Leash to Legacy</h1>
+      <div>
+        <a href="index.html" style="background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;">Back to Home</a>
+        <button onclick="logout()" style="background: #e74c3c; padding: 10px 20px; border: none; color: white; border-radius: 5px; cursor: pointer;">Log Out</button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
   <div class="dashboard">
-    <!-- Sidebar (menú lateral) -->
     <aside class="sidebar">
       <ul class="menu">
-        <li class="menu-item active" data-section="home">
-          <span>Home</span>
-        </li>
+        <li class="menu-item active" data-section="home">🏠 Home</li>
         <li class="menu-item has-submenu">
-          <span>Services</span>
+          <span>📋 Services</span>
           <ul class="submenu">
-            <li data-section="boarding">Boarding Service</li>
-            <li data-section="puppy">Puppy Concierge</li>
-            <li data-section="training">Training Services</li>
+            <li data-section="boarding">🐕 Boarding Service</li>
+            <li data-section="puppy">🐾 Puppy Concierge</li>
+            <li data-section="training">🎥 Training Services</li>
           </ul>
         </li>
-        <li class="menu-item" data-section="blog">
-          <span>Blog</span>
-        </li>
-        <li class="menu-item" data-section="config">
-          <span>Settings (GitHub)</span>
-        </li>
+        <li class="menu-item" data-section="blog">📝 Blog</li>
+        <li class="menu-item" data-section="users">👥 Users</li>
+        <li class="menu-item" data-section="config">⚙️ Settings</li>
       </ul>
     </aside>
 
-    <!-- Contenido principal -->
     <main class="main-content">
       <div class="container">
-
-        <!-- Sección Configuración GitHub -->
-        <div class="section hidden" id="section-config">
-          <h2>Save to GitHub</h2>
-          <p>To have panel changes saved to GitHub (not just in your browser), set up the token in Netlify:</p>
-          <ol style="margin: 1rem 0; padding-left: 1.5rem; line-height: 1.8;">
-            <li>In <a href="https://app.netlify.com" target="_blank" rel="noopener">Netlify</a>, open your site.</li>
-            <li>Go to <strong>Site settings</strong> → <strong>Environment variables</strong>.</li>
-            <li>Click <strong>Add a variable</strong> or <strong>Add from .env</strong>.</li>
-            <li>Name: <code>GITHUB_TOKEN</code></li>
-            <li>Value: your GitHub token (created in GitHub → Settings → Developer settings → Personal access tokens, with <code>repo</code> permission).</li>
-            <li>Save and run a new <strong>Deploy</strong> (Deploys → Trigger deploy → Clear cache and deploy site).</li>
-          </ol>
-          <p><strong>After setting the token</strong>, panel saves will be pushed to GitHub and visitors will see changes in 1–2 minutes.</p>
-          <p class="note" style="margin-top: 0.5rem;">If your repo has a different name or owner, edit <code>netlify/functions/update-site-data.js</code> (variables <code>owner</code> and <code>repo</code>).</p>
-          <div class="form-group" style="margin-top: 1.5rem;">
-            <button type="button" id="btn-probar-github" style="padding: 10px 20px; background: #2ecc71; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 500;">Test save to GitHub</button>
-            <p id="resultado-probar" style="margin-top: 0.5rem; font-size: 0.9rem;"></p>
-          </div>
-        </div>
-
-        <!-- Sección Home -->
+        <!-- SECCIÓN HOME -->
         <div class="section" id="section-home">
-          <h2>Home</h2>
-
-          <!-- Hero -->
+          <h2>Home Page Editor</h2>
+          
           <div class="sub-section">
             <h3>Hero Section</h3>
-            <p class="note" style="margin-bottom: 1rem;">You can change only the fields you want; empty fields will be left unchanged.</p>
             <form id="hero-form">
               <div class="form-group">
-                <label for="hero-image-url">Hero main image URL</label>
-                <input 
-                  type="url" 
-                  id="hero-image-url" 
-                  placeholder="https://res.cloudinary.com/.../hero-image.jpg"
-                  value="IMG/Perro home.png"
-                >
-                <p class="note">Paste the direct URL from Cloudinary (or any host).</p>
+                <label>Hero Image URL (Cloudinary)</label>
+                <input type="url" id="hero-image-url" value="IMG/Perro home.png">
               </div>
-
-              <div class="preview" id="image-preview">
-                <p>Preview:</p>
-                <img id="preview-img" src="IMG/Perro home.png" alt="Hero preview">
+              <div class="preview">
+                <img id="preview-img" src="IMG/Perro home.png" alt="Preview" style="max-width: 200px;">
               </div>
-
               <div class="form-group">
-                <label for="hero-subtitle">Hero subtitle</label>
-                <input 
-                  type="text" 
-                  id="hero-subtitle" 
-                  value="DOG OBEDIENCE AND SERVICE DOG TRAINING"
-                >
+                <label>Hero Subtitle</label>
+                <input type="text" id="hero-subtitle" value="DOG OBEDIENCE AND SERVICE DOG TRAINING">
               </div>
-
               <button type="submit">Save Hero Changes</button>
             </form>
           </div>
 
-          <!-- About Us -->
           <div class="sub-section">
-            <h3>About Us Section</h3>
-            <p class="note" style="margin-bottom: 1rem;">You can change only the title or the text; what you leave unchanged will be kept.</p>
+            <h3>About Us</h3>
             <form id="about-form">
               <div class="form-group">
-                <label for="about-title">About Us title</label>
+                <label>Title</label>
                 <input type="text" id="about-title" value="About Us">
               </div>
-
               <div class="form-group">
-                <label for="about-content">Full About Us content</label>
-                <textarea id="about-content" rows="12">
-We are so glad you stopped by our webpage! Our main goal is to make you and your pup a better functioning, safe team. We begin our instruction in your home. This allows me to see your house and dog in action. We will discuss your ideas and what you want from our sessions. We can start in the first session with beginning commands: sit, down, touch/boop. From there, we can create a teaching schedule the whole family can be part of. Learning for a dog can have its limitations as a human learning, patience, and repetition. I was taught Positive Reinforcement; this is safer and keeps your dog attentive. Reach out on our contact page, and I will get back with you! You are going to make a great team!
-                </textarea>
+                <label>Content</label>
+                <textarea id="about-content" rows="8">We are so glad you stopped by our webpage! Our main goal is to make you and your pup a better functioning, safe team. We begin our instruction in your home. This allows me to see your house and dog in action. We will discuss your ideas and what you want from our sessions. We can start in the first session with beginning commands: sit, down, touch/boop. From there, we can create a teaching schedule the whole family can be part of. Learning for a dog can have its limitations as a human learning, patience, and repetition. I was taught Positive Reinforcement; this is safer and keeps your dog attentive. Reach out on our contact page, and I will get back with you! You are going to make a great team!</textarea>
               </div>
-
-              <button type="submit">Save About Us Changes</button>
+              <button type="submit">Save About Us</button>
             </form>
           </div>
 
-          <!-- Redes Sociales -->
           <div class="sub-section">
-            <h3>Social Links (Footer)</h3>
-            <p class="note" style="margin-bottom: 1rem;">You can add or edit only the links you want; saving one is enough. The rest will be kept. <strong>These fields are for links (URLs)</strong>, not photos.</p>
-            <form id="redes-form" novalidate>
+            <h3>Social Links</h3>
+            <form id="redes-form">
               <div class="form-group">
-                <label for="facebook-url">Facebook link (URL)</label>
-                <input type="text" id="facebook-url" placeholder="https://facebook.com/your-page" autocomplete="url">
+                <label>Facebook URL</label>
+                <input type="text" id="facebook-url" placeholder="https://facebook.com/...">
               </div>
               <div class="form-group">
-                <label for="instagram-url">Instagram link (URL)</label>
-                <input type="text" id="instagram-url" placeholder="https://instagram.com/your-user" autocomplete="url">
+                <label>Instagram URL</label>
+                <input type="text" id="instagram-url" placeholder="https://instagram.com/...">
               </div>
               <div class="form-group">
-                <label for="tiktok-url">TikTok link (URL)</label>
-                <input type="text" id="tiktok-url" placeholder="https://tiktok.com/@your-user" autocomplete="url">
+                <label>TikTok URL</label>
+                <input type="text" id="tiktok-url" placeholder="https://tiktok.com/...">
               </div>
               <div class="form-group">
-                <label for="youtube-url">YouTube link (URL)</label>
-                <input type="text" id="youtube-url" placeholder="https://youtube.com/@your-channel" autocomplete="url">
+                <label>YouTube URL</label>
+                <input type="text" id="youtube-url" placeholder="https://youtube.com/...">
               </div>
               <div class="form-group">
-                <label for="whatsapp-url">WhatsApp link (URL)</label>
-                <input type="text" id="whatsapp-url" placeholder="https://wa.me/1234567890" autocomplete="url">
+                <label>WhatsApp URL</label>
+                <input type="text" id="whatsapp-url" placeholder="https://wa.me/...">
               </div>
-
-              <button type="submit">Save links</button>
+              <button type="submit">Save Social Links</button>
             </form>
           </div>
         </div>
 
-        <!-- Blog -->
+        <!-- SECCIÓN BLOG -->
         <div class="section hidden" id="section-blog">
-          <h2>Blog</h2>
-          <p class="note" style="margin-bottom: 1rem;">Edit the blog post title, text and image. Changes will appear on the <a href="blog.html" target="_blank">Blog</a> page.</p>
+          <h2>Blog Editor</h2>
           <form id="blog-form">
             <div class="form-group">
-              <label for="blog-title">Article title</label>
-              <input type="text" id="blog-title" placeholder="e.g. Tips for training your puppy" value="Positive Reinforcement: Why It Works for Your Dog">
+              <label>Article Title</label>
+              <input type="text" id="blog-title" value="Positive Reinforcement: Why It Works">
             </div>
-
             <div class="form-group">
-              <label for="blog-content">Article content (you can use paragraphs separated by a blank line)</label>
-              <textarea id="blog-content" rows="14" placeholder="Write your blog post text here..."></textarea>
-            </div>
+              <label>Content (use blank lines for paragraphs)</label>
+              <textarea id="blog-content" rows="10">At Leash to Legacy we believe that training should be a joyful experience for both you and your pup. Positive reinforcement isn't just a method — it's a philosophy that builds trust, keeps your dog attentive, and creates a stronger bond.
 
+We start with basics like sit, down, and touch/boop in the comfort of your home. Seeing your house and your dog in action helps us design a teaching schedule the whole family can be part of. Patience and repetition are key, and we're here to support you every step of the way.
+
+Reach out on our contact page — you're going to make a great team!</textarea>
+            </div>
             <div class="form-group">
-              <label for="blog-image-url">Main image URL</label>
-              <input type="text" id="blog-image-url" value="IMG/bio.png" placeholder="IMG/bio.png or https://...">
-              <p class="note">Local path (e.g. IMG/bio.png) or external URL (Cloudinary, etc.).</p>
+              <label>Image URL (Cloudinary)</label>
+              <input type="text" id="blog-image-url" value="IMG/bio.png">
             </div>
-
-            <div class="preview" id="blog-preview">
-              <p>Preview:</p>
-              <img id="blog-preview-img" src="IMG/bio.png" alt="Blog preview">
+            <div class="preview">
+              <img id="blog-preview-img" src="IMG/bio.png" alt="Preview" style="max-width: 200px;">
             </div>
-
-            <button type="submit">Save Blog Changes</button>
+            <button type="submit">Save Blog Post</button>
           </form>
         </div>
 
-        <!-- Boarding Service -->
+        <!-- SECCIÓN BOARDING -->
         <div class="section hidden" id="section-boarding">
           <h2>Boarding Service</h2>
-          <p class="note" style="margin-bottom: 1rem;">You can change only the title, text or image; what you leave unchanged will be kept.</p>
           <form id="boarding-form">
             <div class="form-group">
-              <label for="boarding-title">Page title</label>
-              <input type="text" id="boarding-title" value="Boarding Service" placeholder="e.g. Boarding Service - Your second home">
+              <label>Title</label>
+              <input type="text" id="boarding-title" value="Boarding Service">
             </div>
-
             <div class="form-group">
-              <label for="boarding-content">Main content (single paragraph)</label>
-              <textarea id="boarding-content" rows="10">
-A second home for your best friend. We know your puppy is part of your family. Our Puppy Boarding Service is designed to provide a safe, loving, and fun environment while you’re away. Here, they don’t just stay — they feel at home.
-              </textarea>
+              <label>Content</label>
+              <textarea id="boarding-content" rows="6">A second home for your best friend. We know your puppy is part of your family. Our Puppy Boarding Service is designed to provide a safe, loving, and fun environment while you're away. Here, they don't just stay — they feel at home.</textarea>
             </div>
-
             <div class="form-group">
-              <label for="boarding-image-url">Main photo URL</label>
-              <input type="url" id="boarding-image-url" value="IMG/Boarding-Service.png" placeholder="https://res.cloudinary.com/.../boarding-service.jpg">
-              <p class="note">Paste the direct URL from Cloudinary or any host.</p>
+              <label>Image URL (Cloudinary)</label>
+              <input type="url" id="boarding-image-url" value="IMG/Boarding-Service.png">
             </div>
-
-            <div class="preview" id="boarding-preview">
-              <p>Preview:</p>
-              <img id="boarding-preview-img" src="IMG/Boarding-Service.png" alt="Boarding preview">
+            <div class="preview">
+              <img id="boarding-preview-img" src="IMG/Boarding-Service.png" alt="Preview" style="max-width: 200px;">
             </div>
-
-            <button type="submit">Save Boarding Service Changes</button>
+            <button type="submit">Save Boarding Service</button>
           </form>
         </div>
 
-        <!-- Puppy Concierge -->
-<div class="section hidden" id="section-puppy">
-  <h2>Puppy Concierge</h2>
-  <p class="note" style="margin-bottom: 1rem;">You can change only the title, text or image; what you leave unchanged will be kept.</p>
-  <form id="puppy-form">
-    <div class="form-group">
-      <label for="puppy-title">Page title</label>
-      <input 
-        type="text" 
-        id="puppy-title" 
-        value="Puppy Concierge" 
-        placeholder="e.g. Puppy Concierge - Personalized care for your puppy"
-      >
-    </div>
+        <!-- SECCIÓN PUPPY -->
+        <div class="section hidden" id="section-puppy">
+          <h2>Puppy Concierge</h2>
+          <form id="puppy-form">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="puppy-title" value="Puppy Concierge">
+            </div>
+            <div class="form-group">
+              <label>Content</label>
+              <textarea id="puppy-content" rows="6">From the moment your new puppy joins your family, we're here to help make the transition smooth and joyful. Our Puppy Concierge Service offers personalized guidance, home visits, basic training foundations, potty training support, and answers to all your new-puppy questions. We help set your pup up for success and give you peace of mind during those exciting (and sometimes overwhelming) first months.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL (Cloudinary)</label>
+              <input type="url" id="puppy-image-url" value="IMG/Puppy-Concierge.png">
+            </div>
+            <div class="preview">
+              <img id="puppy-preview-img" src="IMG/Puppy-Concierge.png" alt="Preview" style="max-width: 200px;">
+            </div>
+            <button type="submit">Save Puppy Concierge</button>
+          </form>
+        </div>
 
-    <div class="form-group">
-      <label for="puppy-content">Main content (single paragraph)</label>
-      <textarea id="puppy-content" rows="10">
-From the moment your new puppy joins your family, we’re here to help make the transition smooth and joyful. Our Puppy Concierge Service offers personalized guidance, home visits, basic training foundations, potty training support, and answers to all your new-puppy questions. We help set your pup up for success and give you peace of mind during those exciting (and sometimes overwhelming) first months.
-      </textarea>
-    </div>
+        <!-- SECCIÓN TRAINING -->
+        <div class="section hidden" id="section-training">
+          <h2>Training Videos</h2>
+          
+          <div class="sub-section">
+            <h3>Add New Video (from Cloudinary)</h3>
+            <form id="training-video-form">
+              <div class="form-group">
+                <label>Video Title</label>
+                <input type="text" id="video-title" required>
+              </div>
+              <div class="form-group">
+                <label>Video URL (Cloudinary MP4)</label>
+                <input type="url" id="video-url" required>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="video-description" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Categories</label>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="category" value="basic-commands"> Basic Commands</label>
+                  <label><input type="checkbox" name="category" value="potty-training"> Potty Training</label>
+                  <label><input type="checkbox" name="category" value="reactive-dog"> Reactive Dog</label>
+                  <label><input type="checkbox" name="category" value="fun-tricks"> Fun Tricks</label>
+                </div>
+              </div>
+              <button type="submit">Add Video</button>
+            </form>
+          </div>
 
-    <div class="form-group">
-      <label for="puppy-image-url">Main photo URL</label>
-      <input 
-        type="url" 
-        id="puppy-image-url" 
-        value="IMG/Puppy-Concierge.png" 
-        placeholder="https://res.cloudinary.com/.../puppy-concierge.jpg"
-      >
-      <p class="note">Paste the direct URL from Cloudinary or any host.</p>
-    </div>
+          <div class="sub-section">
+            <h3>Existing Videos</h3>
+            <div class="filters">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="basic-commands">Basic Commands</button>
+              <button class="filter-btn" data-filter="potty-training">Potty Training</button>
+              <button class="filter-btn" data-filter="reactive-dog">Reactive Dog</button>
+              <button class="filter-btn" data-filter="fun-tricks">Fun Tricks</button>
+            </div>
+            <div id="videos-list" class="videos-grid"></div>
+          </div>
+        </div>
 
-    <div class="preview" id="puppy-preview">
-      <p>Preview:</p>
-      <img id="puppy-preview-img" src="IMG/Puppy-Concierge.png" alt="Puppy Concierge preview">
-    </div>
+        <!-- SECCIÓN USERS -->
+        <div class="section hidden" id="section-users">
+          <h2>User Management</h2>
+          <div class="sub-section">
+            <h3>Create New User</h3>
+            <form id="create-user-form">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="new-username" placeholder="Enter username">
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="new-password" placeholder="Enter password">
+              </div>
+              <button type="submit">Create User</button>
+            </form>
+          </div>
+          <div class="sub-section">
+            <h3>Current Users</h3>
+            <div id="users-list">
+              <p>• admin (Administrator)</p>
+            </div>
+          </div>
+        </div>
 
-    <button type="submit">Save Puppy Concierge Changes</button>
-  </form>
-</div>
-
-<!-- Training Services -->
-<div class="section hidden" id="section-training">
-  <h2>Training Services</h2>
-
-  <!-- Add new video -->
-  <div class="sub-section">
-    <h3>Add new video</h3>
-    
-    <form id="training-video-form">
-      <div class="form-group">
-        <label for="video-title">Video title</label>
-        <input type="text" id="video-title" placeholder="e.g. Sit & Stay basics" required>
-      </div>
-
-      <div class="form-group">
-        <label for="video-url">Video URL (Cloudinary)</label>
-        <input 
-          type="url" 
-          id="video-url" 
-          placeholder="https://res.cloudinary.com/.../video-name.mp4"
-          required
-        >
-        <p class="note">Paste the direct video link from Cloudinary (.mp4 recommended)</p>
-      </div>
-
-      <div class="form-group">
-        <label for="video-description">Description</label>
-        <textarea id="video-description" rows="4" placeholder="Brief description of the video content..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Categories (you can select multiple)</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="category" value="basic-commands"> Basic commands</label>
-          <label><input type="checkbox" name="category" value="potty-training"> Potty training</label>
-          <label><input type="checkbox" name="category" value="reactive-dog"> Reactive dog</label>
-          <label><input type="checkbox" name="category" value="fun-tricks"> Fun tricks</label>
+        <!-- SECCIÓN CONFIG -->
+        <div class="section hidden" id="section-config">
+          <h2>Settings</h2>
+          <div class="sub-section">
+            <h3>GitHub Configuration</h3>
+            <p>Changes are saved locally in your browser. To save to GitHub, configure the token in Netlify.</p>
+            <button type="button" id="btn-probar-github">Test Connection</button>
+            <p id="resultado-probar" style="margin-top: 1rem;"></p>
+          </div>
         </div>
       </div>
-
-      <button type="submit">Add Video</button>
-    </form>
+    </main>
   </div>
 
-  <!-- Added videos list -->
-  <div class="sub-section">
-    <h3>Added videos</h3>
-    
-    <div class="filters">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="basic-commands">Basic commands</button>
-      <button class="filter-btn" data-filter="potty-training">Potty training</button>
-      <button class="filter-btn" data-filter="reactive-dog">Reactive dog</button>
-      <button class="filter-btn" data-filter="fun-tricks">Fun tricks</button>
-    </div>
-
-    <div id="videos-list" class="videos-grid">
-      <!-- Videos will be inserted here dynamically -->
-      <p class="no-videos">No videos added yet.</p>
-    </div>
-  </div>
-</div>
-
-  <!-- Carga el JS del panel -->
-  <script src="admin.js"></script>
-
+  <script src="js/admin.js"></script>
 </body>
 </html>

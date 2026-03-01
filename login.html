@@ -8,161 +8,214 @@
   <style>
     body {
       font-family: 'Nunito', sans-serif;
-      background: #f5f7fa;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
-      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
+    
     .login-container {
       background: white;
+      border-radius: 24px;
       padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      width: 100%;
       max-width: 400px;
-      text-align: center;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       position: relative;
     }
-    h1 {
-      color: #4a90e2;
-      margin-bottom: 30px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 1rem;
-    }
-    input:focus {
-      outline: none;
-      border-color: #4a90e2;
-      box-shadow: 0 0 0 3px rgba(74,144,226,0.15);
-    }
-    button {
-      background: #4a90e2;
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 10px;
-    }
-    button:hover {
-      background: #3a7bc8;
-    }
-    .error {
-      color: #e74c3c;
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-
-    /* Botón de regresar al home */
+    
     .back-home {
       position: absolute;
       top: 20px;
       left: 20px;
-      background: #f0f0f0;
-      color: #333;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
+      color: #666;
       text-decoration: none;
-      display: inline-block;
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 5px;
       transition: all 0.2s;
     }
+    
     .back-home:hover {
-      background: #e0e0e0;
-      transform: translateY(-2px);
+      background: #f0f0f0;
+      color: #333;
     }
-
-    .back-home i {
-      margin-right: 6px;
+    
+    h1 {
+      text-align: center;
+      color: #333;
+      margin: 40px 0 30px;
+      font-size: 32px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: all 0.2s;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
+    }
+    
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      background: #3a7bc8;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(74,144,226,0.3);
+    }
+    
+    .error {
+      color: #e74c3c;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 20px;
+    }
+    
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+      font-size: 0.9rem;
+    }
+    
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: #555;
+    }
+    
+    .remember input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+    
+    .forgot {
+      color: #4a90e2;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .forgot:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-
   <div class="login-container">
-
-    <!-- Botón para regresar al home -->
-    <a href="index.html" class="back-home">
-      <i class="fas fa-arrow-left"></i> Back to Home
-    </a>
-
-    <h1>Sign In - Admin</h1>
+    <a href="index.html" class="back-home">← Back to Home</a>
+    <h1>Admin Login</h1>
     
     <form id="login-form">
       <div class="form-group">
         <label for="username">Username</label>
-        <input 
-          type="text" 
-          id="username" 
-          placeholder="e.g. admin" 
-          autocomplete="username"
-          required
-        >
+        <input type="text" id="username" placeholder="Enter username" required>
       </div>
       
       <div class="form-group">
         <label for="password">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          placeholder="••••••••" 
-          autocomplete="current-password"
-          required
-        >
+        <input type="password" id="password" placeholder="••••••••" required>
       </div>
       
-      <button type="submit">Access Panel</button>
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember"> 
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot" id="forgotPassword">Forgot password?</a>
+      </div>
       
-      <div id="error-msg" class="error"></div>
+      <button type="submit">Sign In</button>
+      <div id="login-error" class="error"></div>
     </form>
   </div>
 
   <script>
-    const form = document.getElementById('login-form');
-    const errorMsg = document.getElementById('error-msg');
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      // Credenciales fijas (cámbialas cuando quieras)
-      if (username === 'admin' && password === 'leash2025') {
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('user', username);
-        window.location.href = 'panel.html';
-      } else {
-        errorMsg.textContent = 'Incorrect username or password';
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById('login-form');
+      const errorDiv = document.getElementById('login-error');
+      const forgotLink = document.getElementById('forgotPassword');
+      const rememberCheck = document.getElementById('remember');
+      const usernameInput = document.getElementById('username');
+      
+      // Cargar usuario guardado
+      const savedUser = localStorage.getItem('saved_username');
+      if (savedUser) {
+        usernameInput.value = savedUser;
+        rememberCheck.checked = true;
       }
+      
+      // Forgot password
+      forgotLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        alert('Please contact the administrator:\n\nEmail: shawn@leashtolegacy.org\nPhone: 904-563-7550');
+      });
+      
+      // Login
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = usernameInput.value.trim();
+        const password = document.getElementById('password').value.trim();
+        
+        if (!username || !password) {
+          errorDiv.textContent = 'Please enter username and password';
+          return;
+        }
+        
+        if (username === 'admin' && password === 'leash2025') {
+          if (rememberCheck.checked) {
+            localStorage.setItem('saved_username', username);
+          } else {
+            localStorage.removeItem('saved_username');
+          }
+          
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('user', username);
+          window.location.href = 'panel.html';
+        } else {
+          errorDiv.textContent = 'Invalid username or password';
+          document.getElementById('password').value = '';
+        }
+      });
     });
-
-    // If already authenticated, go to panel
-    if (localStorage.getItem('isAuthenticated') === 'true') {
-      window.location.href = 'panel.html';
-    }
   </script>
-
 </body>
 </html>
