@@ -48,4 +48,19 @@
     {
       "id": 1772398871399,
       "title": "Prueba 1",
-      "url": "https://storage.googleapis.com/gtv-videos-bucket/s
+      "url": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      "description": "prueba",
+      "categories": ["basic-commands"]
+    }
+  ],
+  "email_recipient": "shawn@leashtolegacy.org",
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "leash2025",
+      "role": "administrator",
+      "created": "2024-01-01"
+    }
+  ]
+}
