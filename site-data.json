@@ -50,7 +50,9 @@
       "title": "Prueba 1",
       "url": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       "description": "prueba",
-      "categories": ["basic-commands"]
+      "categories": [
+        "basic-commands"
+      ]
     }
   ],
   "email_recipient": "shawn@leashtolegacy.org",
@@ -61,6 +63,13 @@
       "password": "leash2025",
       "role": "administrator",
       "created": "2024-01-01"
+    },
+    {
+      "id": 1772409334997,
+      "username": "Shawn1",
+      "password": "Lovedogs2522",
+      "role": "editor",
+      "created": "2026-03-01"
     }
   ]
 }
