@@ -29,16 +29,6 @@
     "youtube": "#",
     "whatsapp": "#"
   },
-  "training_videos": [
-    {
-      "id": 1772398871399,
-      "title": "Prueba 1",
-      "url": "https://player.cloudinary.com/embed/?cloud_name=dmebb8dps&public_id=YTDown.com_YouTube_Como-identificar-a-un-beagle_Media_BW3YClU00io_003_480p_mvdivf",
-      "description": "prueba",
-      "categories": [
-        "basic-commands"
-      ]
-    }
-  ],
+  "training_videos": [],
   "email_recipient": "shawn@leashtolegacy.org"
 }
