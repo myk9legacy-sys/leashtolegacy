@@ -57,7 +57,7 @@
 
     <main class="main-content">
       <div class="container">
-        <!-- SECCIÓN HOME -->
+        <!-- SECCIÓN HOME (sin cambios) -->
         <div class="section" id="section-home">
           <h2>Home Page Editor</h2>
           
@@ -122,34 +122,48 @@
           </div>
         </div>
 
-        <!-- SECCIÓN BLOG -->
+        <!-- SECCIÓN BLOG - NUEVA -->
         <div class="section hidden" id="section-blog">
           <h2>Blog Editor</h2>
-          <form id="blog-form">
-            <div class="form-group">
-              <label>Article Title</label>
-              <input type="text" id="blog-title" value="Positive Reinforcement: Why It Works">
-            </div>
-            <div class="form-group">
-              <label>Content (use blank lines for paragraphs)</label>
-              <textarea id="blog-content" rows="10">At Leash to Legacy we believe that training should be a joyful experience for both you and your pup. Positive reinforcement isn't just a method — it's a philosophy that builds trust, keeps your dog attentive, and creates a stronger bond.
+          
+          <div class="sub-section">
+            <h3>Add / Edit Blog Post</h3>
+            <form id="blog-form">
+              <div class="form-group">
+                <label>Post Title</label>
+                <input type="text" id="blog-title" required>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="blog-date">
+              </div>
+              <div class="form-group">
+                <label>Summary (optional - auto-generated if empty)</label>
+                <textarea id="blog-summary" rows="2"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Content (use blank lines for paragraphs)</label>
+                <textarea id="blog-content" rows="10" required></textarea>
+              </div>
+              <div class="form-group">
+                <label>Image URL</label>
+                <input type="text" id="blog-image-url" value="IMG/bio.png">
+              </div>
+              <div class="preview">
+                <img id="blog-preview-img" src="IMG/bio.png" alt="Preview" style="max-width: 200px;">
+              </div>
+              <button type="submit">Save Blog Post</button>
+              <button type="button" id="cancel-blog-edit" style="background: #666; margin-left: 10px;">Cancel Edit</button>
+            </form>
+          </div>
 
-We start with basics like sit, down, and touch/boop in the comfort of your home. Seeing your house and your dog in action helps us design a teaching schedule the whole family can be part of. Patience and repetition are key, and we're here to support you every step of the way.
-
-Reach out on our contact page — you're going to make a great team!</textarea>
-            </div>
-            <div class="form-group">
-              <label>Image URL (Cloudinary)</label>
-              <input type="text" id="blog-image-url" value="IMG/bio.png">
-            </div>
-            <div class="preview">
-              <img id="blog-preview-img" src="IMG/bio.png" alt="Preview" style="max-width: 200px;">
-            </div>
-            <button type="submit">Save Blog Post</button>
-          </form>
+          <div class="sub-section">
+            <h3>Existing Posts</h3>
+            <div id="blog-posts-list" class="blog-posts-list"></div>
+          </div>
         </div>
 
-        <!-- SECCIÓN BOARDING -->
+        <!-- SECCIÓN BOARDING (sin cambios) -->
         <div class="section hidden" id="section-boarding">
           <h2>Boarding Service</h2>
           <form id="boarding-form">
@@ -172,7 +186,7 @@ Reach out on our contact page — you're going to make a great team!</textarea>
           </form>
         </div>
 
-        <!-- SECCIÓN PUPPY -->
+        <!-- SECCIÓN PUPPY (sin cambios) -->
         <div class="section hidden" id="section-puppy">
           <h2>Puppy Concierge</h2>
           <form id="puppy-form">
@@ -195,7 +209,7 @@ Reach out on our contact page — you're going to make a great team!</textarea>
           </form>
         </div>
 
-        <!-- SECCIÓN TRAINING -->
+        <!-- SECCIÓN TRAINING (sin cambios) -->
         <div class="section hidden" id="section-training">
           <h2>Training Videos</h2>
           
@@ -240,32 +254,36 @@ Reach out on our contact page — you're going to make a great team!</textarea>
           </div>
         </div>
 
-        <!-- SECCIÓN USERS -->
+        <!-- SECCIÓN USERS - NUEVA -->
         <div class="section hidden" id="section-users">
           <h2>User Management</h2>
+          
           <div class="sub-section">
             <h3>Create New User</h3>
             <form id="create-user-form">
               <div class="form-group">
                 <label>Username</label>
-                <input type="text" id="new-username" placeholder="Enter username">
+                <input type="text" id="new-username" placeholder="Enter username" required>
               </div>
               <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="new-password" placeholder="Enter password">
+                <input type="text" id="new-password" placeholder="Enter password" required>
+                <p class="note">You can see and copy the password - it's stored as plain text</p>
               </div>
               <button type="submit">Create User</button>
             </form>
           </div>
+
           <div class="sub-section">
             <h3>Current Users</h3>
             <div id="users-list">
-              <p>• admin (Administrator)</p>
+              <!-- Se llenará con JavaScript -->
             </div>
+            <p class="note">Click "Show" to reveal password. Admin users cannot be deleted.</p>
           </div>
         </div>
 
-        <!-- SECCIÓN CONFIG -->
+        <!-- SECCIÓN CONFIG (sin cambios) -->
         <div class="section hidden" id="section-config">
           <h2>Settings</h2>
           <div class="sub-section">

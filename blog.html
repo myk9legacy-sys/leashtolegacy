@@ -18,6 +18,21 @@
 </head>
 <body class="blog-page">
 
+  <script>
+    (function() {
+      const lastReload = localStorage.getItem('force_reload_' + window.location.origin);
+      const currentTime = Date.now();
+      if (lastReload && (currentTime - parseInt(lastReload)) < 5000) {
+        window.location.reload(true);
+      }
+      window.addEventListener('storage', function(e) {
+        if (e.key && e.key.startsWith('force_reload_')) {
+          window.location.reload(true);
+        }
+      });
+    })();
+  </script>
+
   <!-- Header -->
   <header class="blog-header">
     <div class="header-container">
@@ -26,7 +41,6 @@
           <img src="IMG/Logo.png" alt="Leash to Legacy Logo" width="110">
         </a>
       </div>
-
       <nav class="main-nav">
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -45,7 +59,6 @@
           <li><a href="index.html#contact">Contact</a></li>
         </ul>
       </nav>
-
       <div class="header-right">
         <span class="phone"><i class="fas fa-phone-alt"></i> 904-563-7550</span>
         <div class="login-group">
@@ -53,7 +66,6 @@
           <a href="#" class="login-btn">Login</a>
         </div>
       </div>
-
       <button class="menu-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
     </div>
   </header>
@@ -72,28 +84,23 @@
 
   <!-- Contenido principal -->
   <main class="blog-main">
-    <article class="blog-article" id="blog-article">
-      <div class="blog-article-inner">
-        <div class="blog-image-wrap">
-          <div class="blog-image-frame">
-            <img id="blog-image" src="IMG/bio.png" alt="Article image" class="blog-featured-img">
-          </div>
-          <div class="blog-image-accent"></div>
-        </div>
+    <!-- Lista de posts (vista previa) -->
+    <div class="blog-posts-grid" id="blog-posts-grid">
+      <!-- Los posts se cargarán aquí -->
+    </div>
 
-        <div class="blog-content-wrap">
-          <h2 id="blog-title" class="blog-title">Positive Reinforcement: Why It Works for Your Dog</h2>
-          <div id="blog-body" class="blog-body">
-            <p>At Leash to Legacy we believe that training should be a joyful experience for both you and your pup. Positive reinforcement isn't just a method — it's a philosophy that builds trust, keeps your dog attentive, and creates a stronger bond.</p>
-            <p>We start with basics like sit, down, and touch/boop in the comfort of your home. Seeing your house and your dog in action helps us design a teaching schedule the whole family can be part of. Patience and repetition are key, and we're here to support you every step of the way.</p>
-            <p>Reach out on our contact page — you're going to make a great team!</p>
-          </div>
-        </div>
+    <!-- Modal para ver post completo -->
+    <div class="blog-modal" id="blog-modal">
+      <div class="blog-modal-content">
+        <span class="blog-modal-close" id="close-modal">&times;</span>
+        <article class="blog-post-full" id="blog-post-full">
+          <img id="modal-image" src="" alt="" class="modal-featured-img">
+          <h2 id="modal-title"></h2>
+          <div id="modal-date" class="modal-date"></div>
+          <div id="modal-content" class="modal-content"></div>
+        </article>
       </div>
-
-      <img src="IMG/Pata-perro.png" alt="" class="blog-deco blog-deco-pata">
-      <img src="IMG/Cola-perro.png" alt="" class="blog-deco blog-deco-cola">
-    </article>
+    </div>
   </main>
 
   <!-- Footer -->
@@ -115,7 +122,7 @@
     <p class="copyright">© 2025 Leash to Legacy. All rights reserved.</p>
   </footer>
 
-  <!-- Script de login -->
+  <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const loginBtns = document.querySelectorAll('.login, .login-btn, [class*="login"]');
@@ -125,45 +132,109 @@
           window.location.href = 'login.html';
         });
       });
-    });
-  </script>
 
-  <!-- Script para cargar contenido del blog (SIN CACHÉ) -->
-  <script>
-    async function loadBlogContent() {
-      try {
-        const response = await fetch('/site-data.json?t=' + Date.now());
-        const data = await response.json();
-        console.log('Blog data:', data);
-        
-        if (data.blog) {
-          const titleEl = document.getElementById('blog-title');
-          const bodyEl = document.getElementById('blog-body');
-          const imageEl = document.getElementById('blog-image');
+      // Cargar posts del blog
+      const postsGrid = document.getElementById('blog-posts-grid');
+      const modal = document.getElementById('blog-modal');
+      const closeModal = document.getElementById('close-modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDate = document.getElementById('modal-date');
+      const modalContent = document.getElementById('modal-content');
 
-          if (titleEl && data.blog.titulo) {
-            titleEl.textContent = data.blog.titulo;
+      async function loadBlogPosts() {
+        try {
+          const response = await fetch('/site-data.json?t=' + Date.now());
+          const data = await response.json();
+          
+          if (data.blog && data.blog.posts && data.blog.posts.length > 0) {
+            renderPosts(data.blog.posts);
+          } else {
+            postsGrid.innerHTML = '<p class="no-posts">No blog posts yet. Check back soon!</p>';
           }
-          if (bodyEl && data.blog.texto) {
-            const texto = data.blog.texto.trim();
-            const parrafos = texto.split(/\n\n+/).filter(p => p.trim().length > 0);
-            bodyEl.innerHTML = (parrafos.length ? parrafos : [texto]).map(p => '<p>' + p.replace(/\n/g, '<br>') + '</p>').join('');
-          }
-          if (imageEl && data.blog.imagen) {
-            imageEl.src = data.blog.imagen;
-          }
+        } catch (error) {
+          console.error('Error loading posts:', error);
+          postsGrid.innerHTML = '<p class="no-posts">Error loading posts.</p>';
         }
-      } catch (error) {
-        console.log('Usando contenido por defecto del blog');
       }
-    }
-    
-    loadBlogContent();
-    
-    document.addEventListener('visibilitychange', function() {
-      if (!document.hidden) {
-        loadBlogContent();
+
+      function renderPosts(posts) {
+        postsGrid.innerHTML = '';
+        
+        posts.sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).forEach(post => {
+          const postCard = document.createElement('article');
+          postCard.className = 'blog-post-card';
+          postCard.dataset.id = post.id;
+          
+          const resumen = post.resumen || (post.texto.substring(0, 150) + '...');
+          const fecha = post.fecha ? new Date(post.fecha).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          }) : '';
+          
+          postCard.innerHTML = `
+            <div class="post-image">
+              <img src="${post.imagen}" alt="${post.titulo}" loading="lazy">
+            </div>
+            <div class="post-content">
+              <h3 class="post-title">${post.titulo}</h3>
+              ${fecha ? `<div class="post-date">${fecha}</div>` : ''}
+              <p class="post-excerpt">${resumen}</p>
+              <button class="read-more-btn" onclick="openPost(${post.id})">Read More</button>
+            </div>
+          `;
+          
+          postsGrid.appendChild(postCard);
+        });
       }
+
+      window.openPost = async function(postId) {
+        try {
+          const response = await fetch('/site-data.json?t=' + Date.now());
+          const data = await response.json();
+          const post = data.blog.posts.find(p => p.id === postId);
+          
+          if (post) {
+            modalImage.src = post.imagen;
+            modalTitle.textContent = post.titulo;
+            if (post.fecha) {
+              modalDate.textContent = new Date(post.fecha).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+            } else {
+              modalDate.textContent = '';
+            }
+            
+            const paragraphs = post.texto.split('\n\n').filter(p => p.trim());
+            modalContent.innerHTML = paragraphs.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+            
+            modal.classList.add('active');
+          }
+        } catch (error) {
+          console.error('Error loading post:', error);
+        }
+      };
+
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          modal.classList.remove('active');
+        }
+      });
+
+      loadBlogPosts();
     });
   </script>
 </body>
