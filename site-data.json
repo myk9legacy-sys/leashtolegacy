@@ -18,9 +18,24 @@
     "imagen": "IMG/Puppy-Concierge.png"
   },
   "blog": {
-    "titulo": "Prueba 3",
-    "texto": "22222",
-    "imagen": "IMG/bio.png"
+    "posts": [
+      {
+        "id": 1740866400001,
+        "titulo": "Positive Reinforcement: Why It Works for Your Dog",
+        "texto": "At Leash to Legacy we believe that training should be a joyful experience for both you and your pup. Positive reinforcement isn't just a method — it's a philosophy that builds trust, keeps your dog attentive, and creates a stronger bond.\n\nWe start with basics like sit, down, and touch/boop in the comfort of your home. Seeing your house and your dog in action helps us design a teaching schedule the whole family can be part of. Patience and repetition are key, and we're here to support you every step of the way.\n\nReach out on our contact page — you're going to make a great team!",
+        "imagen": "IMG/bio.png",
+        "fecha": "2024-03-01",
+        "resumen": "Descubre por qué el refuerzo positivo es la mejor manera de entrenar a tu perro."
+      },
+      {
+        "id": 1740866400002,
+        "titulo": "Prueba 3",
+        "texto": "22222",
+        "imagen": "IMG/bio.png",
+        "fecha": "2024-03-15",
+        "resumen": "22222"
+      }
+    ]
   },
   "redes_sociales": {
     "facebook": "#",
