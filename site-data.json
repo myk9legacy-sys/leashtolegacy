@@ -29,6 +29,16 @@
     "youtube": "#",
     "whatsapp": "#"
   },
-  "training_videos": [],
+  "training_videos": [
+    {
+      "id": 1772399178095,
+      "title": "Prueba 1",
+      "url": "https://res.cloudinary.com/dmebb8dps/video/upload/v1772397952/YTDown.com_YouTube_Como-identificar-a-un-beagle_Media_BW3YClU00io_003_480p_mvdivf.mp4",
+      "description": "Prueba hoy si",
+      "categories": [
+        "basic-commands"
+      ]
+    }
+  ],
   "email_recipient": "shawn@leashtolegacy.org"
 }
