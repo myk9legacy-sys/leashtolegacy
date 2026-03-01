@@ -1,5 +1,5 @@
-// js/admin.js - Panel de Administración CORREGIDO
-// REEMPLAZA TODO el contenido de este archivo
+// js/admin.js - Panel de Administración COMPLETO
+// CON BLOG MULTI-ENTRADAS Y USERS CON CONTRASEÑAS VISIBLES
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Admin panel loaded');
@@ -60,16 +60,23 @@ document.addEventListener('DOMContentLoaded', function() {
       about_us: { titulo: 'About Us', texto: '' },
       boarding: { titulo: 'Boarding Service', texto: '', imagen: 'IMG/Boarding-Service.png' },
       puppy: { titulo: 'Puppy Concierge', texto: '', imagen: 'IMG/Puppy-Concierge.png' },
-      blog: { titulo: '', texto: '', imagen: 'IMG/bio.png' },
+      blog: { posts: [] },
       redes_sociales: { facebook: '#', instagram: '#', tiktok: '#', youtube: '#', whatsapp: '#' },
       training_videos: [],
-      email_recipient: 'shawn@leashtolegacy.org'
+      email_recipient: 'shawn@leashtolegacy.org',
+      users: [
+        { id: 1, username: 'admin', password: 'leash2025', role: 'administrator', created: '2024-01-01' }
+      ]
     };
   }
 
   async function saveSiteData(updatedData, message) {
     localStorage.setItem('site_data_backup', JSON.stringify(updatedData));
     localStorage.setItem('site_data_backup_time', new Date().toISOString());
+    
+    if (updatedData.blog && updatedData.blog.posts) {
+      localStorage.setItem('blog_posts_backup', JSON.stringify(updatedData.blog.posts));
+    }
     
     try {
       const response = await fetch('/.netlify/functions/update-site-data', {
@@ -170,8 +177,186 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
-  // BLOG
+  // BLOG - Multi-entradas
   // =============================================
+  
+  let blogPosts = [];
+
+  async function loadBlogPosts() {
+    try {
+      const data = await getCurrentSiteData();
+      console.log('Datos cargados:', data);
+      
+      if (data.blog && data.blog.posts) {
+        blogPosts = data.blog.posts;
+      } else {
+        blogPosts = [];
+      }
+      
+      const backup = localStorage.getItem('blog_posts_backup');
+      if (backup && blogPosts.length === 0) {
+        try {
+          blogPosts = JSON.parse(backup);
+        } catch (e) {}
+      }
+      
+      console.log('Posts cargados:', blogPosts);
+      renderBlogPosts();
+    } catch (error) {
+      console.error('Error loading blog posts:', error);
+      const container = document.getElementById('blog-posts-list');
+      if (container) {
+        container.innerHTML = '<p class="error">Error loading posts. Check console.</p>';
+      }
+    }
+  }
+
+  function renderBlogPosts() {
+    const container = document.getElementById('blog-posts-list');
+    if (!container) {
+      console.error('No se encontró el contenedor blog-posts-list');
+      return;
+    }
+
+    if (!blogPosts || blogPosts.length === 0) {
+      container.innerHTML = '<p class="no-items">No blog posts yet. Create your first post!</p>';
+      return;
+    }
+
+    const sortedPosts = [...blogPosts].sort((a, b) => {
+      return new Date(b.fecha || 0) - new Date(a.fecha || 0);
+    });
+
+    let html = '';
+    sortedPosts.forEach(post => {
+      const fecha = post.fecha ? new Date(post.fecha).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }) : 'No date';
+      
+      const resumen = post.resumen || (post.texto ? post.texto.substring(0, 100) + '...' : 'No content');
+      
+      html += `
+        <div class="blog-post-item" data-id="${post.id}">
+          <div class="blog-post-preview">
+            <img src="${post.imagen || 'IMG/bio.png'}" alt="${post.titulo}" class="blog-thumbnail">
+            <div class="blog-post-info">
+              <h4>${post.titulo || 'Untitled'}</h4>
+              <div class="blog-meta">
+                <span class="blog-date">${fecha}</span>
+              </div>
+              <p class="blog-summary">${resumen}</p>
+            </div>
+          </div>
+          <div class="blog-post-actions">
+            <button class="edit-blog-btn" data-id="${post.id}">Edit</button>
+            <button class="delete-blog-btn" data-id="${post.id}">Delete</button>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+    document.querySelectorAll('.edit-blog-btn').forEach(btn => {
+      btn.addEventListener('click', () => editBlogPost(parseInt(btn.dataset.id)));
+    });
+
+    document.querySelectorAll('.delete-blog-btn').forEach(btn => {
+      btn.addEventListener('click', () => deleteBlogPost(parseInt(btn.dataset.id)));
+    });
+  }
+
+  function editBlogPost(id) {
+    const post = blogPosts.find(p => p.id === id);
+    if (!post) return;
+
+    document.getElementById('blog-title').value = post.titulo || '';
+    document.getElementById('blog-content').value = post.texto || '';
+    document.getElementById('blog-image-url').value = post.imagen || '';
+    document.getElementById('blog-date').value = post.fecha || '';
+    document.getElementById('blog-summary').value = post.resumen || '';
+    
+    document.getElementById('blog-form').dataset.editingId = id;
+    document.querySelector('#blog-form button[type="submit"]').textContent = 'Update Post';
+    document.getElementById('blog-form').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  async function deleteBlogPost(id) {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+
+    blogPosts = blogPosts.filter(p => p.id !== id);
+    localStorage.setItem('blog_posts_backup', JSON.stringify(blogPosts));
+    
+    const currentData = await getCurrentSiteData();
+    currentData.blog = currentData.blog || {};
+    currentData.blog.posts = blogPosts;
+    
+    await saveSiteData(currentData, 'Blog post deleted');
+    renderBlogPosts();
+  }
+
+  const blogForm = document.getElementById('blog-form');
+  if (blogForm) {
+    blogForm.reset();
+    blogForm.dataset.editingId = '';
+    
+    blogForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById('blog-title')?.value.trim();
+      const content = document.getElementById('blog-content')?.value.trim();
+      const imageUrl = document.getElementById('blog-image-url')?.value.trim() || 'IMG/bio.png';
+      const fecha = document.getElementById('blog-date')?.value || new Date().toISOString().split('T')[0];
+      const resumen = document.getElementById('blog-summary')?.value.trim() || content.substring(0, 150) + '...';
+
+      if (!title || !content) {
+        alert('Please enter title and content');
+        return;
+      }
+
+      const editingId = blogForm.dataset.editingId;
+      
+      if (editingId) {
+        const index = blogPosts.findIndex(p => p.id === parseInt(editingId));
+        if (index !== -1) {
+          blogPosts[index] = {
+            ...blogPosts[index],
+            titulo: title,
+            texto: content,
+            imagen: imageUrl,
+            fecha: fecha,
+            resumen: resumen
+          };
+        }
+      } else {
+        const newPost = {
+          id: Date.now(),
+          titulo: title,
+          texto: content,
+          imagen: imageUrl,
+          fecha: fecha,
+          resumen: resumen
+        };
+        blogPosts.push(newPost);
+      }
+
+      localStorage.setItem('blog_posts_backup', JSON.stringify(blogPosts));
+
+      const currentData = await getCurrentSiteData();
+      currentData.blog = currentData.blog || {};
+      currentData.blog.posts = blogPosts;
+      
+      await saveSiteData(currentData, editingId ? 'Blog post updated' : 'Blog post created');
+
+      blogForm.reset();
+      blogForm.dataset.editingId = '';
+      document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Blog Post';
+      renderBlogPosts();
+    });
+  }
+
   const blogImageInput = document.getElementById('blog-image-url');
   const blogPreviewImg = document.getElementById('blog-preview-img');
   if (blogImageInput && blogPreviewImg) {
@@ -180,25 +365,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  const blogForm = document.getElementById('blog-form');
-  if (blogForm) {
-    (async function() {
-      const data = await getCurrentSiteData();
-      document.getElementById('blog-title').value = data.blog?.titulo || '';
-      document.getElementById('blog-content').value = data.blog?.texto || '';
-      document.getElementById('blog-image-url').value = data.blog?.imagen || 'IMG/bio.png';
-      if (blogPreviewImg) blogPreviewImg.src = data.blog?.imagen || 'IMG/bio.png';
-    })();
-
-    blogForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const currentData = await getCurrentSiteData();
-      currentData.blog = {
-        titulo: document.getElementById('blog-title')?.value.trim() || '',
-        texto: document.getElementById('blog-content')?.value || '',
-        imagen: document.getElementById('blog-image-url')?.value.trim() || 'IMG/bio.png'
-      };
-      await saveSiteData(currentData, 'Blog updated');
+  const cancelBlogEdit = document.getElementById('cancel-blog-edit');
+  if (cancelBlogEdit) {
+    cancelBlogEdit.addEventListener('click', function() {
+      blogForm.reset();
+      blogForm.dataset.editingId = '';
+      document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Blog Post';
     });
   }
 
@@ -379,6 +551,140 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
+  // USERS - Gestión de usuarios
+  // =============================================
+  
+  let siteUsers = [];
+
+  async function loadUsers() {
+    try {
+      const data = await getCurrentSiteData();
+      siteUsers = data.users || [];
+      
+      if (siteUsers.length === 0) {
+        siteUsers = [
+          {
+            id: 1,
+            username: 'admin',
+            password: 'leash2025',
+            role: 'administrator',
+            created: '2024-01-01'
+          }
+        ];
+      }
+      
+      renderUsers();
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
+  }
+
+  function renderUsers() {
+    const container = document.getElementById('users-list');
+    if (!container) return;
+
+    container.innerHTML = `
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${siteUsers.map(user => `
+            <tr>
+              <td>${user.id}</td>
+              <td>${user.username}</td>
+              <td>
+                <span class="password-mask">••••••••</span>
+                <span class="password-text" style="display: none;">${user.password}</span>
+                <button class="toggle-password-btn" onclick="togglePassword(this)">Show</button>
+              </td>
+              <td>${user.role}</td>
+              <td>${user.created}</td>
+              <td>
+                <button class="delete-user-btn" data-id="${user.id}" ${user.role === 'administrator' ? 'disabled' : ''}>Delete</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+
+    window.togglePassword = function(btn) {
+      const row = btn.closest('tr');
+      const mask = row.querySelector('.password-mask');
+      const text = row.querySelector('.password-text');
+      
+      if (mask.style.display !== 'none') {
+        mask.style.display = 'none';
+        text.style.display = 'inline';
+        btn.textContent = 'Hide';
+      } else {
+        mask.style.display = 'inline';
+        text.style.display = 'none';
+        btn.textContent = 'Show';
+      }
+    };
+
+    document.querySelectorAll('.delete-user-btn:not([disabled])').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = parseInt(this.dataset.id);
+        if (confirm('Delete this user?')) {
+          siteUsers = siteUsers.filter(u => u.id !== id);
+          
+          const currentData = await getCurrentSiteData();
+          currentData.users = siteUsers;
+          await saveSiteData(currentData, 'User deleted');
+          renderUsers();
+        }
+      });
+    });
+  }
+
+  const createUserForm = document.getElementById('create-user-form');
+  if (createUserForm) {
+    createUserForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('new-username')?.value.trim();
+      const password = document.getElementById('new-password')?.value.trim();
+
+      if (!username || !password) {
+        alert('Please enter username and password');
+        return;
+      }
+
+      if (siteUsers.some(u => u.username === username)) {
+        alert('Username already exists');
+        return;
+      }
+
+      const newUser = {
+        id: Date.now(),
+        username: username,
+        password: password,
+        role: 'editor',
+        created: new Date().toISOString().split('T')[0]
+      };
+
+      siteUsers.push(newUser);
+
+      const currentData = await getCurrentSiteData();
+      currentData.users = siteUsers;
+      await saveSiteData(currentData, 'User created');
+
+      createUserForm.reset();
+      renderUsers();
+    });
+  }
+
+  // =============================================
   // EMAIL RECIPIENT
   // =============================================
   const configSection = document.getElementById('section-config');
@@ -442,4 +748,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  // Cargar datos iniciales
+  loadBlogPosts();
+  loadUsers();
 });
