@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leash to Legacy - Dog Obedience & Service Dog Training</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+ <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="login.css"/>
+  <!-- Plyr para videos -->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.7.8/plyr.js" defer></script>
+</head>
+<body>
+
+  <!-- Header fijo -->
+  <header>
+    <div class="header-container">
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="service-link">Services <span class="arrow">▼</span></a>
+            <ul class="dropdown-content">
+              <li><a href="puppy-concierge.html">Puppy Concierge</a></li>
+              <li><a href="boarding-service.html">Boarding Service</a></li>
+              <li><a href="Training-Services.html">Training Services</a></li>
+            </ul>
+          </li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-logo">
+        <img src="IMG/Logo.png" alt="Leash to Legacy Logo Small" width="85" />
+      </div>
+
+      <div class="header-right">
+        <span class="phone">📞 904-563-7550</span>
+        <div class="login-group">
+          <img src="IMG/icono-login.png" alt="Login Icon" class="login-icon" width="26">
+          <a href="login.html" class="login-btn">Login</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero / Inicio -->
+  <section class="hero">
+    <div class="hero-wrapper">
+      <div class="left-paws">
+        <img src="IMG/huella.png" alt="Paw 1" class="paw small top-left" />
+        <img src="IMG/huella.png" alt="Paw 2" class="paw small bottom-left" />
+      </div>
+
+      <div class="hero-center">
+        <h2>DOG OBEDIENCE AND SERVICE DOG TRAINING</h2>
+        <img src="IMG/Logo.png" alt="Leash to Legacy Logo" class="logo-large" />
+        <div class="hero-buttons">
+          <a href="#contact" class="btn dark">CONTACT US</a>
+          <a href="#about" class="btn yellow">LEARN MORE ABOUT US</a>
+        </div>
+      </div>
+
+      <img src="IMG/Perro home.png" alt="Happy Beagle" class="hero-dog flipped" />
+    </div>
+  </section>
+
+  <!-- About Us -->
+  <section id="about" class="about">
+    <h2 id="about-title">About Us</h2>
+    <div class="about-grid">
+      <div class="about-text" id="about-content">
+        <p>Loading content...</p>
+      </div>
+      <div class="about-image">
+        <img src="IMG/bio.png" alt="Trainer with puppy" class="circle-img"/>
+      </div>
+    </div>
+
+    <!-- Decoraciones -->
+    <img src="IMG/Pata-perro.png" alt="Dog paw decoration" class="pata-perro" />
+    <img src="IMG/Cola-perro.png" alt="Dog tail decoration" class="cola-perro" />
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="contact-wrapper">
+      <!-- Marca de agua -->
+      <img src="IMG/Logo-contact.png" alt="Logo watermark" class="watermark-logo" />
+      
+      <h2>Contact</h2>
+
+      <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        <input type="hidden" name="bot-field" />
+        <input type="text" name="name" placeholder="NAME" required />
+        <input type="email" name="email" placeholder="EMAIL" required />
+        <input type="tel" name="phone" placeholder="PHONE (optional)" />
+        <textarea name="message" placeholder="MESSAGE" required></textarea>
+        <button type="submit">SEND MESSAGE</button>
+      </form>
+      <p id="contact-form-status" class="contact-form-status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-info">
+        <p>Shawn Phillips</p>
+        <p>shawn@leashtolegacy.org</p>
+        <p>904-563-7550</p>
+        <div class="social">
+          <a href="#" target="_blank" title="Facebook" aria-label="Facebook">
+            <img src="IMG/facebook-logo.png" alt="Facebook" class="social-icon">
+          </a>
+          <a href="#" target="_blank" title="Instagram" aria-label="Instagram">
+            <img src="IMG/instagram-logo.png" alt="Instagram" class="social-icon">
+          </a>
+          <a href="#" target="_blank" title="TikTok" aria-label="TikTok">
+            <img src="IMG/tiktok-logo.png" alt="TikTok" class="social-icon">
+          </a>
+          <a href="#" target="_blank" title="YouTube" aria-label="YouTube">
+            <img src="IMG/youtube-logo.png" alt="YouTube" class="social-icon">
+          </a>
+          <a href="#" target="_blank" title="WhatsApp" aria-label="WhatsApp">
+            <img src="IMG/whatsapp-logo.png" alt="WhatsApp" class="social-icon">
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="copyright">© 2025 Leash to Legacy - Dog Training & Service Dogs. All rights reserved.</p>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="login-modal" id="loginModal">
+    <div class="modal-content">
+      <span class="modal-close" id="closeLoginModal">&times;</span>
+      
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Sign in to access your training progress</p>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+
+        <div class="options">
+          <label class="remember">
+            <input type="checkbox" id="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="forgot">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-login">Sign In</button>
+      </form>
+
+      <p class="signup-link">
+        Don't have an account? <a href="#">Sign up</a>
+      </p>
+    </div>
+  </div>
+
+<!-- Login Modal -->
+<div class="login-modal" id="loginModal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your training progress</p>
+
+    <form id="login-form" class="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="e.g. admin" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <p class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="login-modal" id="loginModal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your training progress</p>
+
+    <form id="login-form" class="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="e.g. admin" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <p class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+<!-- Script para abrir/cerrar modal de login + autenticación -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.querySelector('.login');
+    const modal = document.getElementById('loginModal');
+    const closeModal = document.getElementById('closeLoginModal');
+    const form = document.getElementById('login-form');
+
+    if (loginBtn) {
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('active');
+      });
+    }
+
+    if (closeModal) {
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+      }
+    });
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (username === 'admin' && password === 'leash2025') {
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('user', username);
+          window.location.href = 'panel.html';
+        } else {
+          alert('Incorrect username or password');
+        }
+      });
+    }
+  });
+
+  // Render content from site data
+  function renderContent(data) {
+    // Hero
+    if (data.hero) {
+      const heroSubtitle = document.querySelector('.hero-center h2');
+      const heroImage = document.querySelector('.hero-dog');
+      if (heroSubtitle && data.hero.subtitulo) {
+        heroSubtitle.textContent = data.hero.subtitulo;
+      }
+      if (heroImage && data.hero.imagen) {
+        heroImage.src = data.hero.imagen;
+      }
+    }
+
+    // About Us
+    if (data.about_us) {
+      const aboutTitle = document.getElementById('about-title');
+      const aboutContent = document.getElementById('about-content');
+      
+      if (aboutTitle && data.about_us.titulo) {
+        aboutTitle.textContent = data.about_us.titulo;
+      }
+      
+      if (aboutContent && data.about_us.texto) {
+        // Split text into paragraphs (by period followed by capital letter)
+        const texto = data.about_us.texto.trim();
+        const paragraphs = texto
+          .split(/\.\s+(?=[A-Z])/)
+          .filter(p => p.trim().length > 0)
+          .map(p => {
+            let parrafo = p.trim();
+            if (!parrafo.endsWith('.')) parrafo += '.';
+            return parrafo;
+          });
+        
+        aboutContent.innerHTML = paragraphs.length > 0 
+          ? paragraphs.map(p => `<p>${p}</p>`).join('')
+          : `<p>${texto}</p>`;
+      }
+    }
+  }
+
+  // Load content from site-data.json or localStorage
+  document.addEventListener('DOMContentLoaded', () => {
+    const backup = localStorage.getItem('site_data_backup');
+    const backupTime = localStorage.getItem('site_data_backup_time');
+    const hasRecentBackup = backup && backupTime && (new Date() - new Date(backupTime)) / (1000 * 60 * 60) < 24;
+
+    if (hasRecentBackup) {
+      try {
+        const data = JSON.parse(backup);
+        console.log('Loading from localStorage (recent panel changes)');
+        renderContent(data);
+        return;
+      } catch (e) {
+        console.error('Error loading backup:', e);
+      }
+    }
+
+    fetch('/site-data.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Could not load site-data.json');
+        return response.json();
+      })
+      .then(data => {
+        console.log('Loading from server');
+        renderContent(data);
+      })
+      .catch(error => {
+        console.error('Error loading from server:', error);
+        if (backup) {
+          try {
+            const data = JSON.parse(backup);
+            console.log('Loading from localStorage (fallback)');
+            renderContent(data);
+          } catch (e) {
+            console.error('Error loading backup:', e);
+          }
+        }
+      });
+  });
+</script>
+
+</body>
+</html>

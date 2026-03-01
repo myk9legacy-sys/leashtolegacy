@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Boarding Service | Leash to Legacy - Dog Obedience & Service Dog Training</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="login.css"/>      
+  
+  <link rel="stylesheet" href="style-boarding.css">
+</head>
+<body class="boarding-page">  <!-- ← solo UN body -->
+
+  <!-- Header fijo -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="index.html">
+          <img src="IMG/Logo.png" alt="Leash to Legacy Logo" width="110">
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="service-link">Services <span class="arrow">▼</span></a>
+            <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-content">
+              <li><a href="puppy-concierge.html">Puppy Concierge</a></li>
+              <li><a href="boarding-service.html">Boarding Service</a></li>
+              <li><a href="Training-Services.html">Training Services</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        <span class="phone">
+          <i class="fas fa-phone-alt"></i> 904-563-7550
+        </span>
+        <div class="login-group">
+          <img src="IMG/icono-login.png" alt="Login icon" class="login-icon" width="26">
+          <a href="login.html" class="login">Login</a>
+        </div>
+      </div>
+
+      <button class="menu-toggle" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Contenido principal (con círculo y perrito intactos) -->
+  <main class="main-content">
+    <section class="boarding-info">
+      <div class="container">
+        <div class="boarding-grid">
+          <!-- Texto -->
+          <div class="boarding-text">
+            <h2 id="boarding-title">Boarding Service</h2>
+            <p id="boarding-content">A second home for your best friend. We know your puppy is part of your family. Our Puppy Boarding Service is designed to provide a safe, loving, and fun environment while you're away. Here, they don't just stay — they feel at home.</p>
+          </div>
+
+          <!-- Imágenes -->
+          <div class="boarding-image">
+            <!-- Círculo amarillo (solo uno) -->
+            <div class="circle-yellow"></div>
+            <!-- ← Aquí va la sombra, justo después de la imagen principal -->
+            <img src="IMG/sombra.png" alt="Dog shadow" class="sombra-float">
+            <img id="boarding-image" src="IMG/Boarding-Service.png" alt="Happy dog in boarding service" class="main-image">
+
+            <!-- Perrito original (derecha, posición original) -->
+            <img src="IMG/perrito.png" alt="Floating puppy right" class="perrito-float right">
+            <!-- Perrito duplicado (izquierda) -->
+            <img src="IMG/perrito.png" alt="Floating puppy left" class="perrito-float left">
+            <!-- Nueva cola flotante en la parte superior derecha -->
+             <img src="IMG/Cola-perro.png" alt="Floating dog tail" class="cola-float">
+             <!-- Nueva pata flotante en la parte superior izquierda -->
+            <img src="IMG/Pata-perro.png" alt="Floating dog paw" class="pata-float">
+        
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-info">
+        <p><strong>Shawn Phillips</strong></p>
+        <p><a href="mailto:shawn@leashtolegacy.org">shawn@leashtolegacy.org</a></p>
+        <p><a href="tel:+19045637550">904-563-7550</a></p>
+
+        <div class="social-links">
+          <a href="#" target="_blank" aria-label="Facebook"><img src="IMG/facebook-logo.png" alt="Facebook" class="social-icon"></a>
+          <a href="#" target="_blank" aria-label="Instagram"><img src="IMG/instagram-logo.png" alt="Instagram" class="social-icon"></a>
+          <a href="#" target="_blank" aria-label="TikTok"><img src="IMG/tiktok-logo.png" alt="TikTok" class="social-icon"></a>
+          <a href="#" target="_blank" aria-label="YouTube"><img src="IMG/youtube-logo.png" alt="YouTube" class="social-icon"></a>
+          <a href="#" target="_blank" aria-label="WhatsApp"><img src="IMG/whatsapp-logo.png" alt="WhatsApp" class="social-icon"></a>
+        </div>
+      </div>
+
+      <p class="copyright">© 2025 Leash to Legacy - Dog Training & Service Dogs. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Modal de Login (ventana emergente) -->
+<div class="login-modal" id="loginModal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your training progress</p>
+
+    <form id="login-form" class="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="e.g. admin" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <p class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+<!-- Modal de Login (ventana emergente) -->
+<div class="login-modal" id="loginModal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your training progress</p>
+
+    <form id="login-form" class="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="e.g. admin" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <p class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+<!-- Login modal and authentication -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.querySelector('.login');
+    const modal = document.getElementById('loginModal');
+    const closeModal = document.getElementById('closeLoginModal');
+    const form = document.getElementById('login-form');
+
+    if (loginBtn) {
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('active');
+      });
+    }
+
+    if (closeModal) {
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+      }
+    });
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (username === 'admin' && password === 'leash2025') {
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('user', username);
+          window.location.href = 'panel.html';
+        } else {
+          alert('Incorrect username or password');
+        }
+      });
+    }
+  });
+
+  // Render boarding content
+  function renderBoardingContent(data) {
+    if (data.boarding) {
+      const title = document.getElementById('boarding-title');
+      const content = document.getElementById('boarding-content');
+      const image = document.getElementById('boarding-image');
+      
+      if (title && data.boarding.titulo) {
+        title.textContent = data.boarding.titulo;
+      }
+      if (content && data.boarding.texto) {
+        content.textContent = data.boarding.texto;
+      }
+      if (image && data.boarding.imagen) {
+        image.src = data.boarding.imagen;
+      }
+    }
+  }
+
+  // Load content from site-data.json or localStorage
+  document.addEventListener('DOMContentLoaded', () => {
+    const backup = localStorage.getItem('site_data_backup');
+    const backupTime = localStorage.getItem('site_data_backup_time');
+    const hasRecentBackup = backup && backupTime && (new Date() - new Date(backupTime)) / (1000 * 60 * 60) < 24;
+
+    if (hasRecentBackup) {
+      try {
+        const data = JSON.parse(backup);
+        console.log('Loading from localStorage (recent panel changes)');
+        renderBoardingContent(data);
+        return;
+      } catch (e) {
+        console.error('Error loading backup:', e);
+      }
+    }
+
+    fetch('/site-data.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Could not load site-data.json');
+        return response.json();
+      })
+      .then(data => {
+        console.log('Loading from server');
+        renderBoardingContent(data);
+      })
+      .catch(error => {
+        console.error('Error loading from server:', error);
+        if (backup) {
+          try {
+            const data = JSON.parse(backup);
+            console.log('Loading from localStorage (fallback)');
+            renderBoardingContent(data);
+          } catch (e) {
+            console.error('Error loading backup:', e);
+          }
+        }
+      });
+  });
+</script>
+</html>

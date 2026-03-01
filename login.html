@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Leash to Legacy Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+    h1 {
+      color: #4a90e2;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    input:focus {
+      outline: none;
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74,144,226,0.15);
+    }
+    button {
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #3a7bc8;
+    }
+    .error {
+      color: #e74c3c;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    /* Botón de regresar al home */
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #f0f0f0;
+      color: #333;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .back-home:hover {
+      background: #e0e0e0;
+      transform: translateY(-2px);
+    }
+
+    .back-home i {
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+
+    <!-- Botón para regresar al home -->
+    <a href="index.html" class="back-home">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <h1>Sign In - Admin</h1>
+    
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="e.g. admin" 
+          autocomplete="username"
+          required
+        >
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          placeholder="••••••••" 
+          autocomplete="current-password"
+          required
+        >
+      </div>
+      
+      <button type="submit">Access Panel</button>
+      
+      <div id="error-msg" class="error"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const errorMsg = document.getElementById('error-msg');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      // Credenciales fijas (cámbialas cuando quieras)
+      if (username === 'admin' && password === 'leash2025') {
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('user', username);
+        window.location.href = 'panel.html';
+      } else {
+        errorMsg.textContent = 'Incorrect username or password';
+      }
+    });
+
+    // If already authenticated, go to panel
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      window.location.href = 'panel.html';
+    }
+  </script>
+
+</body>
+</html>

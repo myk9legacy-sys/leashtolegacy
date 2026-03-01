@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Puppy Concierge | Leash to Legacy - Dog Obedience & Service Dog Training</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="login.css"/>      
+  
+  <link rel="stylesheet" href="puppy-concierge.css"/>
+</head>
+<body class="puppy-concierge-page">
+
+   <!-- Header fijo -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="header-logo">
+        <a href="index.html">
+          <img src="IMG/Logo.png" alt="Leash to Legacy Logo" width="110">
+        </a>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="service-link">Services <span class="arrow">▼</span></a>
+             <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-content">
+              <li><a href="puppy-concierge.html">Puppy Concierge</a></li>
+              <li><a href="boarding-service.html">Boarding Service</a></li>
+              <li><a href="Training-Services.html">Training Services</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-right">
+        <span class="phone">
+          <i class="fas fa-phone-alt"></i> 904-563-7550
+        </span>
+        <div class="login-group">
+          <img src="IMG/icono-login.png" alt="Login icon" class="login-icon" width="26">
+          <a href="login.html" class="login-btn">Login</a>
+        </div>
+      </div>
+
+      <button class="menu-toggle" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <section class="puppy-concierge-section">
+      <div class="container">
+        <div class="puppy-grid">
+          <!-- Texto -->
+          <div class="puppy-text">
+            <h1 id="puppy-title">Puppy Concierge</h1>
+            <p id="puppy-content">From the moment your new puppy joins your family, we're here to help make the transition smooth and joyful. Our Puppy Concierge Service offers personalized guidance, home visits, basic training foundations, potty training support, and answers to all your new-puppy questions. We help set your pup up for success and give you peace of mind during those exciting (and sometimes overwhelming) first months.</p>
+          </div>
+
+          <!-- Imágenes (agrega tus imágenes aquí si deseas el estilo flotante) -->
+          <div class="puppy-image">
+            <img id="puppy-image" src="IMG/Puppy-Concierge.png" 
+               alt="Puppy Concierge - Leash to Legacy" 
+               class="main-image">
+               <!-- Sombra encima de la imagen principal -->
+            <img src="IMG/sombra.png" 
+              alt="" 
+              class="sombra-float">
+
+              <!-- Nueva cola flotante -->
+            <img src="IMG/Cola-perro.png" 
+            alt="" 
+            class="cola-float">
+
+            <!-- Nueva pata flotante – lado izquierdo -->
+           <img src="IMG/Pata-perro.png" 
+             alt="" 
+           class="pata-float">
+
+           <!-- 4 huellas flotantes – secuencia de pisadas -->
+           <img src="IMG/huella.png" alt="" class="huella-float huella-1">
+           <img src="IMG/huella.png" alt="" class="huella-float huella-2">
+           <img src="IMG/huella.png" alt="" class="huella-float huella-3">
+          <img src="IMG/huella.png" alt="" class="huella-float huella-4">
+          
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <p><strong>Shawn Phillips</strong></p>
+          <p><a href="mailto:shawn@leashtolegacy.org">shawn@leashtolegacy.org</a></p>
+          <p><a href="tel:+19045637550">904-563-7550</a></p>
+
+          <div class="social-links">
+            <a href="#" target="_blank" aria-label="Facebook"><img src="IMG/facebook-logo.png" alt="Facebook"></a>
+            <a href="#" target="_blank" aria-label="Instagram"><img src="IMG/instagram-logo.png" alt="Instagram"></a>
+            <a href="#" target="_blank" aria-label="TikTok"><img src="IMG/tiktok-logo.png" alt="TikTok"></a>
+            <a href="#" target="_blank" aria-label="YouTube"><img src="IMG/youtube-logo.png" alt="YouTube"></a>
+            <a href="#" target="_blank" aria-label="WhatsApp"><img src="IMG/whatsapp-logo.png" alt="WhatsApp"></a>
+          </div>
+        </div>
+      </div>
+      <p class="copyright">© 2025 Leash to Legacy - Entrenamiento Canino y Perros de Servicio. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Script menú hamburguesa -->
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('active');
+    });
+  </script>
+
+</body>
+<!-- Modal de Login (ventana emergente) -->
+<div class="login-modal" id="loginModal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your training progress</p>
+
+    <form id="login-form" class="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <p class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+<!-- Modal de Login (ventana emergente) -->
+<div class="login-modal" id="loginModal">
+  <div class="modal-content">
+    <span class="modal-close" id="closeLoginModal">&times;</span>
+    
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to access your training progress</p>
+
+    <form id="login-form" class="login-form">
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="Ej: admin o ginger" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-login">Sign In</button>
+    </form>
+
+    <p class="signup-link">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+<!-- Script para abrir/cerrar modal de login + autenticación -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginBtn = document.querySelector('.login');
+    const modal = document.getElementById('loginModal');
+    const closeModal = document.getElementById('closeLoginModal');
+    const form = document.getElementById('login-form');
+
+    if (loginBtn) {
+      loginBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('active');
+      });
+    }
+
+    if (closeModal) {
+      closeModal.addEventListener('click', () => {
+        modal.classList.remove('active');
+      });
+    }
+
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+      }
+    });
+
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (username === 'admin' && password === 'leash2025') {
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('user', username);
+          window.location.href = 'panel.html';
+        } else {
+          alert('Usuario o contraseña incorrectos');
+        }
+      });
+    }
+  });
+
+  // Función para renderizar contenido
+  function renderPuppyContent(data) {
+    if (data.puppy) {
+      const title = document.getElementById('puppy-title');
+      const content = document.getElementById('puppy-content');
+      const image = document.getElementById('puppy-image');
+      
+      if (title && data.puppy.titulo) {
+        title.textContent = data.puppy.titulo;
+      }
+      if (content && data.puppy.texto) {
+        content.textContent = data.puppy.texto;
+      }
+      if (image && data.puppy.imagen) {
+        image.src = data.puppy.imagen;
+      }
+    }
+  }
+
+  // Cargar contenido dinámico desde site-data.json o localStorage
+  document.addEventListener('DOMContentLoaded', () => {
+    const backup = localStorage.getItem('site_data_backup');
+    const backupTime = localStorage.getItem('site_data_backup_time');
+    const hasRecentBackup = backup && backupTime && (new Date() - new Date(backupTime)) / (1000 * 60 * 60) < 24;
+
+    if (hasRecentBackup) {
+      try {
+        const data = JSON.parse(backup);
+        console.log('Cargando desde localStorage (cambios recientes del panel)');
+        renderPuppyContent(data);
+        return;
+      } catch (e) {
+        console.error('Error al cargar backup:', e);
+      }
+    }
+
+    fetch('/site-data.json')
+      .then(response => {
+        if (!response.ok) throw new Error('No se pudo cargar site-data.json');
+        return response.json();
+      })
+      .then(data => {
+        console.log('Cargando desde servidor');
+        renderPuppyContent(data);
+      })
+      .catch(error => {
+        console.error('Error al cargar desde servidor:', error);
+        if (backup) {
+          try {
+            const data = JSON.parse(backup);
+            console.log('Cargando desde localStorage (fallback)');
+            renderPuppyContent(data);
+          } catch (e) {
+            console.error('Error al cargar respaldo:', e);
+          }
+        }
+      });
+  });
+</script>
+
+</html>
