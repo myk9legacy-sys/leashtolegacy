@@ -191,7 +191,7 @@
     });
   </script>
 
-    <!-- Script para cargar contenido dinámico (SIN CACHÉ) -->
+  <!-- Script para cargar contenido dinámico (SIN CACHÉ) -->
   <script>
     async function loadContent() {
       try {
@@ -199,34 +199,28 @@
         const data = await response.json();
         console.log('Datos cargados:', data);
         
-        // Hero section
         if (data.hero) {
           const heroSubtitle = document.getElementById('hero-subtitle');
           const heroImage = document.getElementById('hero-image');
-          
           if (heroSubtitle && data.hero.subtitulo) {
             heroSubtitle.textContent = data.hero.subtitulo;
           }
           if (heroImage && data.hero.imagen) {
             heroImage.src = data.hero.imagen;
-            console.log('Hero image updated to:', data.hero.imagen);
           }
         }
         
-        // About Us
         if (data.about_us) {
           const aboutTitle = document.getElementById('about-title');
           const aboutContent = document.getElementById('about-content');
-          
           if (aboutTitle && data.about_us.titulo) {
             aboutTitle.textContent = data.about_us.titulo;
           }
           if (aboutContent && data.about_us.texto) {
-            aboutContent.innerHTML = `<p>${data.about_us.texto.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+            aboutContent.innerHTML = `<p>${data.about_us.texto.replace(/\n\n/g, '</p><p>')}</p>`;
           }
         }
         
-        // Redes sociales
         if (data.redes_sociales) {
           const socialLinks = document.querySelectorAll('.social a');
           if (socialLinks.length >= 5) {
@@ -239,14 +233,12 @@
         }
         
       } catch (error) {
-        console.log('Usando contenido por defecto', error);
+        console.log('Usando contenido por defecto');
       }
     }
     
-    // Cargar contenido al iniciar
     loadContent();
     
-    // Recargar cuando la página vuelve a estar visible
     document.addEventListener('visibilitychange', function() {
       if (!document.hidden) {
         loadContent();
