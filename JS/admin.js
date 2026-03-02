@@ -1,6 +1,6 @@
 // js/admin.js - Panel de Administración COMPLETO
 // CON BLOG MULTI-ENTRADAS Y USERS CON CONTRASEÑAS VISIBLES
-// CORREGIDO: Input fields sin valores predeterminados y preview oculto
+// CORREGIDO: Muestra los valores guardados sin borrarlos
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Admin panel loaded');
@@ -97,21 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
-  // HERO SECTION - CORREGIDO
+  // HERO SECTION - CORREGIDO (NO borra los valores)
   // =============================================
   const heroImageInput = document.getElementById('hero-image-url');
   const heroPreviewImg = document.getElementById('preview-img');
   const heroSubtitleInput = document.getElementById('hero-subtitle');
-  
-  // Asegurar que los inputs estén vacíos al cargar
-  if (heroImageInput) heroImageInput.value = '';
-  if (heroSubtitleInput) heroSubtitleInput.value = '';
-  
-  // Ocultar preview inicialmente
-  if (heroPreviewImg) {
-    heroPreviewImg.style.display = 'none';
-    heroPreviewImg.src = '';
-  }
 
   // Vista previa de imagen
   if (heroImageInput && heroPreviewImg) {
@@ -121,8 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
         heroPreviewImg.src = url;
         heroPreviewImg.style.display = 'block';
         heroPreviewImg.onerror = function() {
-          this.src = '';
-          this.style.display = 'none';
           console.log('Error loading image:', url);
         };
       } else {
@@ -174,9 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // =============================================
   const aboutTitleInput = document.getElementById('about-title');
   const aboutContentInput = document.getElementById('about-content');
-  
-  if (aboutTitleInput) aboutTitleInput.value = '';
-  if (aboutContentInput) aboutContentInput.value = '';
 
   const aboutForm = document.getElementById('about-form');
   if (aboutForm) {
@@ -213,11 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const tiktokInput = document.getElementById('tiktok-url');
   const youtubeInput = document.getElementById('youtube-url');
   const whatsappInput = document.getElementById('whatsapp-url');
-
-  // Limpiar inputs
-  [facebookInput, instagramInput, tiktokInput, youtubeInput, whatsappInput].forEach(input => {
-    if (input) input.value = '';
-  });
 
   const redesForm = document.getElementById('redes-form');
   if (redesForm) {
@@ -350,7 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('blog-date').value = post.fecha || '';
     document.getElementById('blog-summary').value = post.resumen || '';
     
-    // Mostrar preview
     const blogPreviewImg = document.getElementById('blog-preview-img');
     if (blogPreviewImg && post.imagen) {
       blogPreviewImg.src = post.imagen;
@@ -384,19 +363,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const blogDateInput = document.getElementById('blog-date');
   const blogSummaryInput = document.getElementById('blog-summary');
 
-  // Limpiar inputs
-  if (blogTitleInput) blogTitleInput.value = '';
-  if (blogContentInput) blogContentInput.value = '';
-  if (blogImageInput) blogImageInput.value = '';
-  if (blogDateInput) blogDateInput.value = '';
-  if (blogSummaryInput) blogSummaryInput.value = '';
-  
-  // Ocultar preview
-  if (blogPreviewImg) {
-    blogPreviewImg.style.display = 'none';
-    blogPreviewImg.src = '';
-  }
-
   if (blogImageInput && blogPreviewImg) {
     blogImageInput.addEventListener('input', function() {
       const url = this.value.trim();
@@ -404,8 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         blogPreviewImg.src = url;
         blogPreviewImg.style.display = 'block';
         blogPreviewImg.onerror = function() {
-          this.src = '';
-          this.style.display = 'none';
+          console.log('Error loading image:', url);
         };
       } else {
         blogPreviewImg.src = '';
@@ -465,7 +430,6 @@ document.addEventListener('DOMContentLoaded', function() {
       
       await saveSiteData(currentData, editingId ? 'Blog post updated' : 'Blog post created');
 
-      // Resetear formulario
       blogForm.reset();
       blogForm.dataset.editingId = '';
       if (blogTitleInput) blogTitleInput.value = '';
@@ -509,17 +473,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const boardingTitleInput = document.getElementById('boarding-title');
   const boardingContentInput = document.getElementById('boarding-content');
 
-  // Limpiar inputs
-  if (boardingImageInput) boardingImageInput.value = '';
-  if (boardingTitleInput) boardingTitleInput.value = '';
-  if (boardingContentInput) boardingContentInput.value = '';
-  
-  // Ocultar preview
-  if (boardingPreviewImg) {
-    boardingPreviewImg.style.display = 'none';
-    boardingPreviewImg.src = '';
-  }
-
   if (boardingImageInput && boardingPreviewImg) {
     boardingImageInput.addEventListener('input', function() {
       const url = this.value.trim();
@@ -527,8 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
         boardingPreviewImg.src = url;
         boardingPreviewImg.style.display = 'block';
         boardingPreviewImg.onerror = function() {
-          this.src = '';
-          this.style.display = 'none';
+          console.log('Error loading image:', url);
         };
       } else {
         boardingPreviewImg.src = '';
@@ -586,17 +538,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const puppyTitleInput = document.getElementById('puppy-title');
   const puppyContentInput = document.getElementById('puppy-content');
 
-  // Limpiar inputs
-  if (puppyImageInput) puppyImageInput.value = '';
-  if (puppyTitleInput) puppyTitleInput.value = '';
-  if (puppyContentInput) puppyContentInput.value = '';
-  
-  // Ocultar preview
-  if (puppyPreviewImg) {
-    puppyPreviewImg.style.display = 'none';
-    puppyPreviewImg.src = '';
-  }
-
   if (puppyImageInput && puppyPreviewImg) {
     puppyImageInput.addEventListener('input', function() {
       const url = this.value.trim();
@@ -604,8 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
         puppyPreviewImg.src = url;
         puppyPreviewImg.style.display = 'block';
         puppyPreviewImg.onerror = function() {
-          this.src = '';
-          this.style.display = 'none';
+          console.log('Error loading image:', url);
         };
       } else {
         puppyPreviewImg.src = '';
