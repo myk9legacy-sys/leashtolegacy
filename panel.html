@@ -57,7 +57,7 @@
 
     <main class="main-content">
       <div class="container">
-        <!-- SECCIÓN HOME (sin cambios) -->
+        <!-- SECCIÓN HOME - CORREGIDA -->
         <div class="section" id="section-home">
           <h2>Home Page Editor</h2>
           
@@ -65,15 +65,15 @@
             <h3>Hero Section</h3>
             <form id="hero-form">
               <div class="form-group">
-                <label>Hero Image URL (Cloudinary)</label>
-                <input type="url" id="hero-image-url" value="IMG/Perro home.png">
+                <label>Hero Image URL</label>
+                <input type="url" id="hero-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
               </div>
               <div class="preview">
                 <img id="preview-img" src="IMG/Perro home.png" alt="Preview" style="max-width: 200px;">
               </div>
               <div class="form-group">
                 <label>Hero Subtitle</label>
-                <input type="text" id="hero-subtitle" value="DOG OBEDIENCE AND SERVICE DOG TRAINING">
+                <input type="text" id="hero-subtitle" placeholder="Enter hero subtitle" value="">
               </div>
               <button type="submit">Save Hero Changes</button>
             </form>
@@ -84,11 +84,11 @@
             <form id="about-form">
               <div class="form-group">
                 <label>Title</label>
-                <input type="text" id="about-title" value="About Us">
+                <input type="text" id="about-title" placeholder="About Us" value="">
               </div>
               <div class="form-group">
                 <label>Content</label>
-                <textarea id="about-content" rows="8">We are so glad you stopped by our webpage! Our main goal is to make you and your pup a better functioning, safe team. We begin our instruction in your home. This allows me to see your house and dog in action. We will discuss your ideas and what you want from our sessions. We can start in the first session with beginning commands: sit, down, touch/boop. From there, we can create a teaching schedule the whole family can be part of. Learning for a dog can have its limitations as a human learning, patience, and repetition. I was taught Positive Reinforcement; this is safer and keeps your dog attentive. Reach out on our contact page, and I will get back with you! You are going to make a great team!</textarea>
+                <textarea id="about-content" rows="8" placeholder="Enter about us content"></textarea>
               </div>
               <button type="submit">Save About Us</button>
             </form>
@@ -122,7 +122,7 @@
           </div>
         </div>
 
-        <!-- SECCIÓN BLOG - NUEVA -->
+        <!-- SECCIÓN BLOG - CORREGIDA -->
         <div class="section hidden" id="section-blog">
           <h2>Blog Editor</h2>
           
@@ -131,7 +131,7 @@
             <form id="blog-form">
               <div class="form-group">
                 <label>Post Title</label>
-                <input type="text" id="blog-title" required>
+                <input type="text" id="blog-title" placeholder="Enter post title" required>
               </div>
               <div class="form-group">
                 <label>Date</label>
@@ -139,15 +139,15 @@
               </div>
               <div class="form-group">
                 <label>Summary (optional - auto-generated if empty)</label>
-                <textarea id="blog-summary" rows="2"></textarea>
+                <textarea id="blog-summary" rows="2" placeholder="Brief summary of the post"></textarea>
               </div>
               <div class="form-group">
                 <label>Content (use blank lines for paragraphs)</label>
-                <textarea id="blog-content" rows="10" required></textarea>
+                <textarea id="blog-content" rows="10" placeholder="Write your post content here..." required></textarea>
               </div>
               <div class="form-group">
                 <label>Image URL</label>
-                <input type="text" id="blog-image-url" value="IMG/bio.png">
+                <input type="text" id="blog-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
               </div>
               <div class="preview">
                 <img id="blog-preview-img" src="IMG/bio.png" alt="Preview" style="max-width: 200px;">
@@ -163,21 +163,21 @@
           </div>
         </div>
 
-        <!-- SECCIÓN BOARDING (sin cambios) -->
+        <!-- SECCIÓN BOARDING - CORREGIDA -->
         <div class="section hidden" id="section-boarding">
           <h2>Boarding Service</h2>
           <form id="boarding-form">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" id="boarding-title" value="Boarding Service">
+              <input type="text" id="boarding-title" placeholder="Boarding Service" value="">
             </div>
             <div class="form-group">
               <label>Content</label>
-              <textarea id="boarding-content" rows="6">A second home for your best friend. We know your puppy is part of your family. Our Puppy Boarding Service is designed to provide a safe, loving, and fun environment while you're away. Here, they don't just stay — they feel at home.</textarea>
+              <textarea id="boarding-content" rows="6" placeholder="Enter boarding service description"></textarea>
             </div>
             <div class="form-group">
-              <label>Image URL (Cloudinary)</label>
-              <input type="url" id="boarding-image-url" value="IMG/Boarding-Service.png">
+              <label>Image URL</label>
+              <input type="url" id="boarding-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
             </div>
             <div class="preview">
               <img id="boarding-preview-img" src="IMG/Boarding-Service.png" alt="Preview" style="max-width: 200px;">
@@ -186,21 +186,21 @@
           </form>
         </div>
 
-        <!-- SECCIÓN PUPPY (sin cambios) -->
+        <!-- SECCIÓN PUPPY - CORREGIDA -->
         <div class="section hidden" id="section-puppy">
           <h2>Puppy Concierge</h2>
           <form id="puppy-form">
             <div class="form-group">
               <label>Title</label>
-              <input type="text" id="puppy-title" value="Puppy Concierge">
+              <input type="text" id="puppy-title" placeholder="Puppy Concierge" value="">
             </div>
             <div class="form-group">
               <label>Content</label>
-              <textarea id="puppy-content" rows="6">From the moment your new puppy joins your family, we're here to help make the transition smooth and joyful. Our Puppy Concierge Service offers personalized guidance, home visits, basic training foundations, potty training support, and answers to all your new-puppy questions. We help set your pup up for success and give you peace of mind during those exciting (and sometimes overwhelming) first months.</textarea>
+              <textarea id="puppy-content" rows="6" placeholder="Enter puppy concierge description"></textarea>
             </div>
             <div class="form-group">
-              <label>Image URL (Cloudinary)</label>
-              <input type="url" id="puppy-image-url" value="IMG/Puppy-Concierge.png">
+              <label>Image URL</label>
+              <input type="url" id="puppy-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
             </div>
             <div class="preview">
               <img id="puppy-preview-img" src="IMG/Puppy-Concierge.png" alt="Preview" style="max-width: 200px;">
@@ -218,15 +218,15 @@
             <form id="training-video-form">
               <div class="form-group">
                 <label>Video Title</label>
-                <input type="text" id="video-title" required>
+                <input type="text" id="video-title" placeholder="Enter video title" required>
               </div>
               <div class="form-group">
                 <label>Video URL (Cloudinary MP4)</label>
-                <input type="url" id="video-url" required>
+                <input type="url" id="video-url" placeholder="https://res.cloudinary.com/..." required>
               </div>
               <div class="form-group">
                 <label>Description</label>
-                <textarea id="video-description" rows="3"></textarea>
+                <textarea id="video-description" rows="3" placeholder="Enter video description"></textarea>
               </div>
               <div class="form-group">
                 <label>Categories</label>
@@ -254,7 +254,7 @@
           </div>
         </div>
 
-        <!-- SECCIÓN USERS - NUEVA -->
+        <!-- SECCIÓN USERS - CORREGIDA -->
         <div class="section hidden" id="section-users">
           <h2>User Management</h2>
           
@@ -283,7 +283,7 @@
           </div>
         </div>
 
-        <!-- SECCIÓN CONFIG (sin cambios) -->
+        <!-- SECCIÓN CONFIG -->
         <div class="section hidden" id="section-config">
           <h2>Settings</h2>
           <div class="sub-section">
