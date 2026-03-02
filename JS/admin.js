@@ -1,6 +1,6 @@
 // js/admin.js - Panel de Administración COMPLETO
 // CON BLOG MULTI-ENTRADAS Y USERS CON CONTRASEÑAS VISIBLES
-// CORREGIDO: Input fields sin valores predeterminados
+// CORREGIDO: Input fields sin valores predeterminados y preview oculto
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Admin panel loaded');
@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     return {
-      hero: { imagen: 'IMG/Perro home.png', subtitulo: 'DOG OBEDIENCE AND SERVICE DOG TRAINING' },
-      about_us: { titulo: 'About Us', texto: '' },
-      boarding: { titulo: 'Boarding Service', texto: '', imagen: 'IMG/Boarding-Service.png' },
-      puppy: { titulo: 'Puppy Concierge', texto: '', imagen: 'IMG/Puppy-Concierge.png' },
+      hero: { imagen: '', subtitulo: '' },
+      about_us: { titulo: '', texto: '' },
+      boarding: { titulo: '', texto: '', imagen: '' },
+      puppy: { titulo: '', texto: '', imagen: '' },
       blog: { posts: [] },
       redes_sociales: { facebook: '#', instagram: '#', tiktok: '#', youtube: '#', whatsapp: '#' },
       training_videos: [],
@@ -103,9 +103,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const heroPreviewImg = document.getElementById('preview-img');
   const heroSubtitleInput = document.getElementById('hero-subtitle');
   
-  // Limpiar valores por defecto al cargar
+  // Asegurar que los inputs estén vacíos al cargar
   if (heroImageInput) heroImageInput.value = '';
   if (heroSubtitleInput) heroSubtitleInput.value = '';
+  
+  // Ocultar preview inicialmente
+  if (heroPreviewImg) {
+    heroPreviewImg.style.display = 'none';
+    heroPreviewImg.src = '';
+  }
 
   // Vista previa de imagen
   if (heroImageInput && heroPreviewImg) {
@@ -113,9 +119,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const url = this.value.trim();
       if (url) {
         heroPreviewImg.src = url;
-        heroPreviewImg.onerror = () => heroPreviewImg.src = 'IMG/Perro home.png';
+        heroPreviewImg.style.display = 'block';
+        heroPreviewImg.onerror = function() {
+          this.src = '';
+          this.style.display = 'none';
+          console.log('Error loading image:', url);
+        };
       } else {
-        heroPreviewImg.src = 'IMG/Perro home.png';
+        heroPreviewImg.src = '';
+        heroPreviewImg.style.display = 'none';
       }
     });
   }
@@ -127,7 +139,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const data = await getCurrentSiteData();
       if (heroImageInput && data.hero?.imagen) {
         heroImageInput.value = data.hero.imagen;
-        heroPreviewImg.src = data.hero.imagen;
+        if (heroPreviewImg) {
+          heroPreviewImg.src = data.hero.imagen;
+          heroPreviewImg.style.display = 'block';
+        }
       }
       if (heroSubtitleInput && data.hero?.subtitulo) {
         heroSubtitleInput.value = data.hero.subtitulo;
@@ -335,6 +350,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('blog-date').value = post.fecha || '';
     document.getElementById('blog-summary').value = post.resumen || '';
     
+    // Mostrar preview
+    const blogPreviewImg = document.getElementById('blog-preview-img');
+    if (blogPreviewImg && post.imagen) {
+      blogPreviewImg.src = post.imagen;
+      blogPreviewImg.style.display = 'block';
+    }
+    
     document.getElementById('blog-form').dataset.editingId = id;
     document.querySelector('#blog-form button[type="submit"]').textContent = 'Update Post';
     document.getElementById('blog-form').scrollIntoView({ behavior: 'smooth' });
@@ -368,21 +390,31 @@ document.addEventListener('DOMContentLoaded', function() {
   if (blogImageInput) blogImageInput.value = '';
   if (blogDateInput) blogDateInput.value = '';
   if (blogSummaryInput) blogSummaryInput.value = '';
+  
+  // Ocultar preview
+  if (blogPreviewImg) {
+    blogPreviewImg.style.display = 'none';
+    blogPreviewImg.src = '';
+  }
 
   if (blogImageInput && blogPreviewImg) {
     blogImageInput.addEventListener('input', function() {
       const url = this.value.trim();
       if (url) {
         blogPreviewImg.src = url;
-        blogPreviewImg.onerror = () => blogPreviewImg.src = 'IMG/bio.png';
+        blogPreviewImg.style.display = 'block';
+        blogPreviewImg.onerror = function() {
+          this.src = '';
+          this.style.display = 'none';
+        };
       } else {
-        blogPreviewImg.src = 'IMG/bio.png';
+        blogPreviewImg.src = '';
+        blogPreviewImg.style.display = 'none';
       }
     });
   }
 
   if (blogForm) {
-    blogForm.reset();
     blogForm.dataset.editingId = '';
     
     blogForm.addEventListener('submit', async function(e) {
@@ -390,9 +422,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const title = blogTitleInput?.value.trim();
       const content = blogContentInput?.value.trim();
-      const imageUrl = blogImageInput?.value.trim() || 'IMG/bio.png';
+      const imageUrl = blogImageInput?.value.trim();
       const fecha = blogDateInput?.value || new Date().toISOString().split('T')[0];
-      const resumen = blogSummaryInput?.value.trim() || content.substring(0, 150) + '...';
+      const resumen = blogSummaryInput?.value.trim() || (content ? content.substring(0, 150) + '...' : '');
 
       if (!title || !content) {
         alert('Please enter title and content');
@@ -408,7 +440,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ...blogPosts[index],
             titulo: title,
             texto: content,
-            imagen: imageUrl,
+            imagen: imageUrl || blogPosts[index].imagen || 'IMG/bio.png',
             fecha: fecha,
             resumen: resumen
           };
@@ -418,7 +450,7 @@ document.addEventListener('DOMContentLoaded', function() {
           id: Date.now(),
           titulo: title,
           texto: content,
-          imagen: imageUrl,
+          imagen: imageUrl || 'IMG/bio.png',
           fecha: fecha,
           resumen: resumen
         };
@@ -433,14 +465,18 @@ document.addEventListener('DOMContentLoaded', function() {
       
       await saveSiteData(currentData, editingId ? 'Blog post updated' : 'Blog post created');
 
+      // Resetear formulario
       blogForm.reset();
       blogForm.dataset.editingId = '';
-      blogTitleInput.value = '';
-      blogContentInput.value = '';
-      blogImageInput.value = '';
-      blogDateInput.value = '';
-      blogSummaryInput.value = '';
-      blogPreviewImg.src = 'IMG/bio.png';
+      if (blogTitleInput) blogTitleInput.value = '';
+      if (blogContentInput) blogContentInput.value = '';
+      if (blogImageInput) blogImageInput.value = '';
+      if (blogDateInput) blogDateInput.value = '';
+      if (blogSummaryInput) blogSummaryInput.value = '';
+      if (blogPreviewImg) {
+        blogPreviewImg.src = '';
+        blogPreviewImg.style.display = 'none';
+      }
       
       document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Blog Post';
       renderBlogPosts();
@@ -452,12 +488,15 @@ document.addEventListener('DOMContentLoaded', function() {
     cancelBlogEdit.addEventListener('click', function() {
       blogForm.reset();
       blogForm.dataset.editingId = '';
-      blogTitleInput.value = '';
-      blogContentInput.value = '';
-      blogImageInput.value = '';
-      blogDateInput.value = '';
-      blogSummaryInput.value = '';
-      blogPreviewImg.src = 'IMG/bio.png';
+      if (blogTitleInput) blogTitleInput.value = '';
+      if (blogContentInput) blogContentInput.value = '';
+      if (blogImageInput) blogImageInput.value = '';
+      if (blogDateInput) blogDateInput.value = '';
+      if (blogSummaryInput) blogSummaryInput.value = '';
+      if (blogPreviewImg) {
+        blogPreviewImg.src = '';
+        blogPreviewImg.style.display = 'none';
+      }
       document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Blog Post';
     });
   }
@@ -470,18 +509,30 @@ document.addEventListener('DOMContentLoaded', function() {
   const boardingTitleInput = document.getElementById('boarding-title');
   const boardingContentInput = document.getElementById('boarding-content');
 
+  // Limpiar inputs
   if (boardingImageInput) boardingImageInput.value = '';
   if (boardingTitleInput) boardingTitleInput.value = '';
   if (boardingContentInput) boardingContentInput.value = '';
+  
+  // Ocultar preview
+  if (boardingPreviewImg) {
+    boardingPreviewImg.style.display = 'none';
+    boardingPreviewImg.src = '';
+  }
 
   if (boardingImageInput && boardingPreviewImg) {
     boardingImageInput.addEventListener('input', function() {
       const url = this.value.trim();
       if (url) {
         boardingPreviewImg.src = url;
-        boardingPreviewImg.onerror = () => boardingPreviewImg.src = 'IMG/Boarding-Service.png';
+        boardingPreviewImg.style.display = 'block';
+        boardingPreviewImg.onerror = function() {
+          this.src = '';
+          this.style.display = 'none';
+        };
       } else {
-        boardingPreviewImg.src = 'IMG/Boarding-Service.png';
+        boardingPreviewImg.src = '';
+        boardingPreviewImg.style.display = 'none';
       }
     });
   }
@@ -498,7 +549,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (boardingImageInput && data.boarding?.imagen) {
         boardingImageInput.value = data.boarding.imagen;
-        boardingPreviewImg.src = data.boarding.imagen;
+        if (boardingPreviewImg) {
+          boardingPreviewImg.src = data.boarding.imagen;
+          boardingPreviewImg.style.display = 'block';
+        }
       }
     })();
 
@@ -532,18 +586,30 @@ document.addEventListener('DOMContentLoaded', function() {
   const puppyTitleInput = document.getElementById('puppy-title');
   const puppyContentInput = document.getElementById('puppy-content');
 
+  // Limpiar inputs
   if (puppyImageInput) puppyImageInput.value = '';
   if (puppyTitleInput) puppyTitleInput.value = '';
   if (puppyContentInput) puppyContentInput.value = '';
+  
+  // Ocultar preview
+  if (puppyPreviewImg) {
+    puppyPreviewImg.style.display = 'none';
+    puppyPreviewImg.src = '';
+  }
 
   if (puppyImageInput && puppyPreviewImg) {
     puppyImageInput.addEventListener('input', function() {
       const url = this.value.trim();
       if (url) {
         puppyPreviewImg.src = url;
-        puppyPreviewImg.onerror = () => puppyPreviewImg.src = 'IMG/Puppy-Concierge.png';
+        puppyPreviewImg.style.display = 'block';
+        puppyPreviewImg.onerror = function() {
+          this.src = '';
+          this.style.display = 'none';
+        };
       } else {
-        puppyPreviewImg.src = 'IMG/Puppy-Concierge.png';
+        puppyPreviewImg.src = '';
+        puppyPreviewImg.style.display = 'none';
       }
     });
   }
@@ -560,7 +626,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if (puppyImageInput && data.puppy?.imagen) {
         puppyImageInput.value = data.puppy.imagen;
-        puppyPreviewImg.src = data.puppy.imagen;
+        if (puppyPreviewImg) {
+          puppyPreviewImg.src = data.puppy.imagen;
+          puppyPreviewImg.style.display = 'block';
+        }
       }
     })();
 
