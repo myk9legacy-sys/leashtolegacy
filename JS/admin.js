@@ -1,6 +1,4 @@
-// js/admin.js - Panel de Administración COMPLETO
-// CON BLOG MULTI-ENTRADAS Y USERS CON CONTRASEÑAS VISIBLES
-// CORREGIDO: Muestra los valores guardados sin borrarlos
+// js/admin.js - Panel de Administración ORIGINAL
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('Admin panel loaded');
@@ -57,27 +55,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     return {
-      hero: { imagen: '', subtitulo: '' },
-      about_us: { titulo: '', texto: '' },
-      boarding: { titulo: '', texto: '', imagen: '' },
-      puppy: { titulo: '', texto: '', imagen: '' },
-      blog: { posts: [] },
+      hero: { imagen: 'IMG/Perro home.png', subtitulo: 'DOG OBEDIENCE AND SERVICE DOG TRAINING' },
+      about_us: { titulo: 'About Us', texto: '' },
+      boarding: { titulo: 'Boarding Service', texto: '', imagen: 'IMG/Boarding-Service.png' },
+      puppy: { titulo: 'Puppy Concierge', texto: '', imagen: 'IMG/Puppy-Concierge.png' },
+      blog: { titulo: '', texto: '', imagen: 'IMG/bio.png' },
       redes_sociales: { facebook: '#', instagram: '#', tiktok: '#', youtube: '#', whatsapp: '#' },
       training_videos: [],
-      email_recipient: 'shawn@leashtolegacy.org',
-      users: [
-        { id: 1, username: 'admin', password: 'leash2025', role: 'administrator', created: '2024-01-01' }
-      ]
+      email_recipient: 'shawn@leashtolegacy.org'
     };
   }
 
   async function saveSiteData(updatedData, message) {
     localStorage.setItem('site_data_backup', JSON.stringify(updatedData));
     localStorage.setItem('site_data_backup_time', new Date().toISOString());
-    
-    if (updatedData.blog && updatedData.blog.posts) {
-      localStorage.setItem('blog_posts_backup', JSON.stringify(updatedData.blog.posts));
-    }
     
     try {
       const response = await fetch('/.netlify/functions/update-site-data', {
@@ -97,395 +88,127 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
-  // HERO SECTION - CORREGIDO (NO borra los valores)
+  // HERO SECTION
   // =============================================
   const heroImageInput = document.getElementById('hero-image-url');
   const heroPreviewImg = document.getElementById('preview-img');
-  const heroSubtitleInput = document.getElementById('hero-subtitle');
-
-  // Vista previa de imagen
   if (heroImageInput && heroPreviewImg) {
     heroImageInput.addEventListener('input', function() {
-      const url = this.value.trim();
-      if (url) {
-        heroPreviewImg.src = url;
-        heroPreviewImg.style.display = 'block';
-        heroPreviewImg.onerror = function() {
-          console.log('Error loading image:', url);
-        };
-      } else {
-        heroPreviewImg.src = '';
-        heroPreviewImg.style.display = 'none';
-      }
+      heroPreviewImg.src = this.value.trim() || 'IMG/Perro home.png';
     });
   }
 
   const heroForm = document.getElementById('hero-form');
   if (heroForm) {
-    // Cargar valores actuales al abrir el panel
     (async function() {
       const data = await getCurrentSiteData();
-      if (heroImageInput && data.hero?.imagen) {
-        heroImageInput.value = data.hero.imagen;
-        if (heroPreviewImg) {
-          heroPreviewImg.src = data.hero.imagen;
-          heroPreviewImg.style.display = 'block';
-        }
-      }
-      if (heroSubtitleInput && data.hero?.subtitulo) {
-        heroSubtitleInput.value = data.hero.subtitulo;
-      }
+      document.getElementById('hero-image-url').value = data.hero?.imagen || 'IMG/Perro home.png';
+      document.getElementById('hero-subtitle').value = data.hero?.subtitulo || 'DOG OBEDIENCE AND SERVICE DOG TRAINING';
+      if (heroPreviewImg) heroPreviewImg.src = data.hero?.imagen || 'IMG/Perro home.png';
     })();
 
     heroForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const imageUrl = heroImageInput?.value.trim();
-      const subtitle = heroSubtitleInput?.value.trim();
-      
-      if (!imageUrl || !subtitle) {
-        alert('Please fill in both fields');
-        return;
-      }
-      
       const currentData = await getCurrentSiteData();
       currentData.hero = {
-        imagen: imageUrl,
-        subtitulo: subtitle
+        imagen: document.getElementById('hero-image-url')?.value.trim() || 'IMG/Perro home.png',
+        subtitulo: document.getElementById('hero-subtitle')?.value.trim() || 'DOG OBEDIENCE AND SERVICE DOG TRAINING'
       };
       await saveSiteData(currentData, 'Hero updated');
     });
   }
 
   // =============================================
-  // ABOUT US - CORREGIDO
+  // ABOUT US
   // =============================================
-  const aboutTitleInput = document.getElementById('about-title');
-  const aboutContentInput = document.getElementById('about-content');
-
   const aboutForm = document.getElementById('about-form');
   if (aboutForm) {
     (async function() {
       const data = await getCurrentSiteData();
-      if (aboutTitleInput && data.about_us?.titulo) {
-        aboutTitleInput.value = data.about_us.titulo;
-      }
-      if (aboutContentInput && data.about_us?.texto) {
-        aboutContentInput.value = data.about_us.texto;
-      }
+      document.getElementById('about-title').value = data.about_us?.titulo || 'About Us';
+      document.getElementById('about-content').value = data.about_us?.texto || '';
     })();
 
     aboutForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const title = aboutTitleInput?.value.trim() || 'About Us';
-      const content = aboutContentInput?.value || '';
-      
       const currentData = await getCurrentSiteData();
       currentData.about_us = {
-        titulo: title,
-        texto: content
+        titulo: document.getElementById('about-title')?.value.trim() || 'About Us',
+        texto: document.getElementById('about-content')?.value || ''
       };
       await saveSiteData(currentData, 'About Us updated');
     });
   }
 
   // =============================================
-  // SOCIAL LINKS - CORREGIDO
+  // SOCIAL LINKS
   // =============================================
-  const facebookInput = document.getElementById('facebook-url');
-  const instagramInput = document.getElementById('instagram-url');
-  const tiktokInput = document.getElementById('tiktok-url');
-  const youtubeInput = document.getElementById('youtube-url');
-  const whatsappInput = document.getElementById('whatsapp-url');
-
   const redesForm = document.getElementById('redes-form');
   if (redesForm) {
     (async function() {
       const data = await getCurrentSiteData();
-      const r = data.redes_sociales || {};
-      if (facebookInput && r.facebook) facebookInput.value = r.facebook;
-      if (instagramInput && r.instagram) instagramInput.value = r.instagram;
-      if (tiktokInput && r.tiktok) tiktokInput.value = r.tiktok;
-      if (youtubeInput && r.youtube) youtubeInput.value = r.youtube;
-      if (whatsappInput && r.whatsapp) whatsappInput.value = r.whatsapp;
+      document.getElementById('facebook-url').value = data.redes_sociales?.facebook || '#';
+      document.getElementById('instagram-url').value = data.redes_sociales?.instagram || '#';
+      document.getElementById('tiktok-url').value = data.redes_sociales?.tiktok || '#';
+      document.getElementById('youtube-url').value = data.redes_sociales?.youtube || '#';
+      document.getElementById('whatsapp-url').value = data.redes_sociales?.whatsapp || '#';
     })();
 
     redesForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const isLink = (v) => v && v !== '#';
-      
       const currentData = await getCurrentSiteData();
       currentData.redes_sociales = {
-        facebook: isLink(facebookInput?.value) ? facebookInput.value : '#',
-        instagram: isLink(instagramInput?.value) ? instagramInput.value : '#',
-        tiktok: isLink(tiktokInput?.value) ? tiktokInput.value : '#',
-        youtube: isLink(youtubeInput?.value) ? youtubeInput.value : '#',
-        whatsapp: isLink(whatsappInput?.value) ? whatsappInput.value : '#'
+        facebook: document.getElementById('facebook-url')?.value || '#',
+        instagram: document.getElementById('instagram-url')?.value || '#',
+        tiktok: document.getElementById('tiktok-url')?.value || '#',
+        youtube: document.getElementById('youtube-url')?.value || '#',
+        whatsapp: document.getElementById('whatsapp-url')?.value || '#'
       };
       await saveSiteData(currentData, 'Social links updated');
     });
   }
 
   // =============================================
-  // BLOG - Multi-entradas
+  // BLOG
   // =============================================
-  
-  let blogPosts = [];
-
-  async function loadBlogPosts() {
-    try {
-      const data = await getCurrentSiteData();
-      console.log('Datos cargados:', data);
-      
-      if (data.blog && data.blog.posts) {
-        blogPosts = data.blog.posts;
-      } else {
-        blogPosts = [];
-      }
-      
-      const backup = localStorage.getItem('blog_posts_backup');
-      if (backup && blogPosts.length === 0) {
-        try {
-          blogPosts = JSON.parse(backup);
-        } catch (e) {}
-      }
-      
-      console.log('Posts cargados:', blogPosts);
-      renderBlogPosts();
-    } catch (error) {
-      console.error('Error loading blog posts:', error);
-      const container = document.getElementById('blog-posts-list');
-      if (container) {
-        container.innerHTML = '<p class="error">Error loading posts. Check console.</p>';
-      }
-    }
-  }
-
-  function renderBlogPosts() {
-    const container = document.getElementById('blog-posts-list');
-    if (!container) {
-      console.error('No se encontró el contenedor blog-posts-list');
-      return;
-    }
-
-    if (!blogPosts || blogPosts.length === 0) {
-      container.innerHTML = '<p class="no-items">No blog posts yet. Create your first post!</p>';
-      return;
-    }
-
-    const sortedPosts = [...blogPosts].sort((a, b) => {
-      return new Date(b.fecha || 0) - new Date(a.fecha || 0);
+  const blogImageInput = document.getElementById('blog-image-url');
+  const blogPreviewImg = document.getElementById('blog-preview-img');
+  if (blogImageInput && blogPreviewImg) {
+    blogImageInput.addEventListener('input', function() {
+      blogPreviewImg.src = this.value.trim() || 'IMG/bio.png';
     });
-
-    let html = '';
-    sortedPosts.forEach(post => {
-      const fecha = post.fecha ? new Date(post.fecha).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }) : 'No date';
-      
-      const resumen = post.resumen || (post.texto ? post.texto.substring(0, 100) + '...' : 'No content');
-      
-      html += `
-        <div class="blog-post-item" data-id="${post.id}">
-          <div class="blog-post-preview">
-            <img src="${post.imagen || 'IMG/bio.png'}" alt="${post.titulo}" class="blog-thumbnail">
-            <div class="blog-post-info">
-              <h4>${post.titulo || 'Untitled'}</h4>
-              <div class="blog-meta">
-                <span class="blog-date">${fecha}</span>
-              </div>
-              <p class="blog-summary">${resumen}</p>
-            </div>
-          </div>
-          <div class="blog-post-actions">
-            <button class="edit-blog-btn" data-id="${post.id}">Edit</button>
-            <button class="delete-blog-btn" data-id="${post.id}">Delete</button>
-          </div>
-        </div>
-      `;
-    });
-
-    container.innerHTML = html;
-
-    document.querySelectorAll('.edit-blog-btn').forEach(btn => {
-      btn.addEventListener('click', () => editBlogPost(parseInt(btn.dataset.id)));
-    });
-
-    document.querySelectorAll('.delete-blog-btn').forEach(btn => {
-      btn.addEventListener('click', () => deleteBlogPost(parseInt(btn.dataset.id)));
-    });
-  }
-
-  function editBlogPost(id) {
-    const post = blogPosts.find(p => p.id === id);
-    if (!post) return;
-
-    document.getElementById('blog-title').value = post.titulo || '';
-    document.getElementById('blog-content').value = post.texto || '';
-    document.getElementById('blog-image-url').value = post.imagen || '';
-    document.getElementById('blog-date').value = post.fecha || '';
-    document.getElementById('blog-summary').value = post.resumen || '';
-    
-    const blogPreviewImg = document.getElementById('blog-preview-img');
-    if (blogPreviewImg && post.imagen) {
-      blogPreviewImg.src = post.imagen;
-      blogPreviewImg.style.display = 'block';
-    }
-    
-    document.getElementById('blog-form').dataset.editingId = id;
-    document.querySelector('#blog-form button[type="submit"]').textContent = 'Update Post';
-    document.getElementById('blog-form').scrollIntoView({ behavior: 'smooth' });
-  }
-
-  async function deleteBlogPost(id) {
-    if (!confirm('Are you sure you want to delete this post?')) return;
-
-    blogPosts = blogPosts.filter(p => p.id !== id);
-    localStorage.setItem('blog_posts_backup', JSON.stringify(blogPosts));
-    
-    const currentData = await getCurrentSiteData();
-    currentData.blog = currentData.blog || {};
-    currentData.blog.posts = blogPosts;
-    
-    await saveSiteData(currentData, 'Blog post deleted');
-    renderBlogPosts();
   }
 
   const blogForm = document.getElementById('blog-form');
-  const blogImageInput = document.getElementById('blog-image-url');
-  const blogPreviewImg = document.getElementById('blog-preview-img');
-  const blogTitleInput = document.getElementById('blog-title');
-  const blogContentInput = document.getElementById('blog-content');
-  const blogDateInput = document.getElementById('blog-date');
-  const blogSummaryInput = document.getElementById('blog-summary');
-
-  if (blogImageInput && blogPreviewImg) {
-    blogImageInput.addEventListener('input', function() {
-      const url = this.value.trim();
-      if (url) {
-        blogPreviewImg.src = url;
-        blogPreviewImg.style.display = 'block';
-        blogPreviewImg.onerror = function() {
-          console.log('Error loading image:', url);
-        };
-      } else {
-        blogPreviewImg.src = '';
-        blogPreviewImg.style.display = 'none';
-      }
-    });
-  }
-
   if (blogForm) {
-    blogForm.dataset.editingId = '';
-    
+    (async function() {
+      const data = await getCurrentSiteData();
+      document.getElementById('blog-title').value = data.blog?.titulo || '';
+      document.getElementById('blog-content').value = data.blog?.texto || '';
+      document.getElementById('blog-image-url').value = data.blog?.imagen || 'IMG/bio.png';
+      if (blogPreviewImg) blogPreviewImg.src = data.blog?.imagen || 'IMG/bio.png';
+    })();
+
     blogForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-
-      const title = blogTitleInput?.value.trim();
-      const content = blogContentInput?.value.trim();
-      const imageUrl = blogImageInput?.value.trim();
-      const fecha = blogDateInput?.value || new Date().toISOString().split('T')[0];
-      const resumen = blogSummaryInput?.value.trim() || (content ? content.substring(0, 150) + '...' : '');
-
-      if (!title || !content) {
-        alert('Please enter title and content');
-        return;
-      }
-
-      const editingId = blogForm.dataset.editingId;
-      
-      if (editingId) {
-        const index = blogPosts.findIndex(p => p.id === parseInt(editingId));
-        if (index !== -1) {
-          blogPosts[index] = {
-            ...blogPosts[index],
-            titulo: title,
-            texto: content,
-            imagen: imageUrl || blogPosts[index].imagen || 'IMG/bio.png',
-            fecha: fecha,
-            resumen: resumen
-          };
-        }
-      } else {
-        const newPost = {
-          id: Date.now(),
-          titulo: title,
-          texto: content,
-          imagen: imageUrl || 'IMG/bio.png',
-          fecha: fecha,
-          resumen: resumen
-        };
-        blogPosts.push(newPost);
-      }
-
-      localStorage.setItem('blog_posts_backup', JSON.stringify(blogPosts));
-
       const currentData = await getCurrentSiteData();
-      currentData.blog = currentData.blog || {};
-      currentData.blog.posts = blogPosts;
-      
-      await saveSiteData(currentData, editingId ? 'Blog post updated' : 'Blog post created');
-
-      blogForm.reset();
-      blogForm.dataset.editingId = '';
-      if (blogTitleInput) blogTitleInput.value = '';
-      if (blogContentInput) blogContentInput.value = '';
-      if (blogImageInput) blogImageInput.value = '';
-      if (blogDateInput) blogDateInput.value = '';
-      if (blogSummaryInput) blogSummaryInput.value = '';
-      if (blogPreviewImg) {
-        blogPreviewImg.src = '';
-        blogPreviewImg.style.display = 'none';
-      }
-      
-      document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Blog Post';
-      renderBlogPosts();
-    });
-  }
-
-  const cancelBlogEdit = document.getElementById('cancel-blog-edit');
-  if (cancelBlogEdit) {
-    cancelBlogEdit.addEventListener('click', function() {
-      blogForm.reset();
-      blogForm.dataset.editingId = '';
-      if (blogTitleInput) blogTitleInput.value = '';
-      if (blogContentInput) blogContentInput.value = '';
-      if (blogImageInput) blogImageInput.value = '';
-      if (blogDateInput) blogDateInput.value = '';
-      if (blogSummaryInput) blogSummaryInput.value = '';
-      if (blogPreviewImg) {
-        blogPreviewImg.src = '';
-        blogPreviewImg.style.display = 'none';
-      }
-      document.querySelector('#blog-form button[type="submit"]').textContent = 'Save Blog Post';
+      currentData.blog = {
+        titulo: document.getElementById('blog-title')?.value.trim() || '',
+        texto: document.getElementById('blog-content')?.value || '',
+        imagen: document.getElementById('blog-image-url')?.value.trim() || 'IMG/bio.png'
+      };
+      await saveSiteData(currentData, 'Blog updated');
     });
   }
 
   // =============================================
-  // BOARDING - CORREGIDO
+  // BOARDING
   // =============================================
   const boardingImageInput = document.getElementById('boarding-image-url');
   const boardingPreviewImg = document.getElementById('boarding-preview-img');
-  const boardingTitleInput = document.getElementById('boarding-title');
-  const boardingContentInput = document.getElementById('boarding-content');
-
   if (boardingImageInput && boardingPreviewImg) {
     boardingImageInput.addEventListener('input', function() {
-      const url = this.value.trim();
-      if (url) {
-        boardingPreviewImg.src = url;
-        boardingPreviewImg.style.display = 'block';
-        boardingPreviewImg.onerror = function() {
-          console.log('Error loading image:', url);
-        };
-      } else {
-        boardingPreviewImg.src = '';
-        boardingPreviewImg.style.display = 'none';
-      }
+      boardingPreviewImg.src = this.value.trim() || 'IMG/Boarding-Service.png';
     });
   }
 
@@ -493,64 +216,32 @@ document.addEventListener('DOMContentLoaded', function() {
   if (boardingForm) {
     (async function() {
       const data = await getCurrentSiteData();
-      if (boardingTitleInput && data.boarding?.titulo) {
-        boardingTitleInput.value = data.boarding.titulo;
-      }
-      if (boardingContentInput && data.boarding?.texto) {
-        boardingContentInput.value = data.boarding.texto;
-      }
-      if (boardingImageInput && data.boarding?.imagen) {
-        boardingImageInput.value = data.boarding.imagen;
-        if (boardingPreviewImg) {
-          boardingPreviewImg.src = data.boarding.imagen;
-          boardingPreviewImg.style.display = 'block';
-        }
-      }
+      document.getElementById('boarding-title').value = data.boarding?.titulo || 'Boarding Service';
+      document.getElementById('boarding-content').value = data.boarding?.texto || '';
+      document.getElementById('boarding-image-url').value = data.boarding?.imagen || 'IMG/Boarding-Service.png';
+      if (boardingPreviewImg) boardingPreviewImg.src = data.boarding?.imagen || 'IMG/Boarding-Service.png';
     })();
 
     boardingForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const title = boardingTitleInput?.value.trim();
-      const content = boardingContentInput?.value.trim();
-      const imageUrl = boardingImageInput?.value.trim();
-      
-      if (!title || !content || !imageUrl) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
       const currentData = await getCurrentSiteData();
       currentData.boarding = {
-        titulo: title,
-        texto: content,
-        imagen: imageUrl
+        titulo: document.getElementById('boarding-title')?.value.trim() || 'Boarding Service',
+        texto: document.getElementById('boarding-content')?.value || '',
+        imagen: document.getElementById('boarding-image-url')?.value.trim() || 'IMG/Boarding-Service.png'
       };
       await saveSiteData(currentData, 'Boarding updated');
     });
   }
 
   // =============================================
-  // PUPPY - CORREGIDO
+  // PUPPY
   // =============================================
   const puppyImageInput = document.getElementById('puppy-image-url');
   const puppyPreviewImg = document.getElementById('puppy-preview-img');
-  const puppyTitleInput = document.getElementById('puppy-title');
-  const puppyContentInput = document.getElementById('puppy-content');
-
   if (puppyImageInput && puppyPreviewImg) {
     puppyImageInput.addEventListener('input', function() {
-      const url = this.value.trim();
-      if (url) {
-        puppyPreviewImg.src = url;
-        puppyPreviewImg.style.display = 'block';
-        puppyPreviewImg.onerror = function() {
-          console.log('Error loading image:', url);
-        };
-      } else {
-        puppyPreviewImg.src = '';
-        puppyPreviewImg.style.display = 'none';
-      }
+      puppyPreviewImg.src = this.value.trim() || 'IMG/Puppy-Concierge.png';
     });
   }
 
@@ -558,38 +249,19 @@ document.addEventListener('DOMContentLoaded', function() {
   if (puppyForm) {
     (async function() {
       const data = await getCurrentSiteData();
-      if (puppyTitleInput && data.puppy?.titulo) {
-        puppyTitleInput.value = data.puppy.titulo;
-      }
-      if (puppyContentInput && data.puppy?.texto) {
-        puppyContentInput.value = data.puppy.texto;
-      }
-      if (puppyImageInput && data.puppy?.imagen) {
-        puppyImageInput.value = data.puppy.imagen;
-        if (puppyPreviewImg) {
-          puppyPreviewImg.src = data.puppy.imagen;
-          puppyPreviewImg.style.display = 'block';
-        }
-      }
+      document.getElementById('puppy-title').value = data.puppy?.titulo || 'Puppy Concierge';
+      document.getElementById('puppy-content').value = data.puppy?.texto || '';
+      document.getElementById('puppy-image-url').value = data.puppy?.imagen || 'IMG/Puppy-Concierge.png';
+      if (puppyPreviewImg) puppyPreviewImg.src = data.puppy?.imagen || 'IMG/Puppy-Concierge.png';
     })();
 
     puppyForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      const title = puppyTitleInput?.value.trim();
-      const content = puppyContentInput?.value.trim();
-      const imageUrl = puppyImageInput?.value.trim();
-      
-      if (!title || !content || !imageUrl) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
       const currentData = await getCurrentSiteData();
       currentData.puppy = {
-        titulo: title,
-        texto: content,
-        imagen: imageUrl
+        titulo: document.getElementById('puppy-title')?.value.trim() || 'Puppy Concierge',
+        texto: document.getElementById('puppy-content')?.value || '',
+        imagen: document.getElementById('puppy-image-url')?.value.trim() || 'IMG/Puppy-Concierge.png'
       };
       await saveSiteData(currentData, 'Puppy Concierge updated');
     });
@@ -706,140 +378,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
-  // USERS - Gestión de usuarios
-  // =============================================
-  
-  let siteUsers = [];
-
-  async function loadUsers() {
-    try {
-      const data = await getCurrentSiteData();
-      siteUsers = data.users || [];
-      
-      if (siteUsers.length === 0) {
-        siteUsers = [
-          {
-            id: 1,
-            username: 'admin',
-            password: 'leash2025',
-            role: 'administrator',
-            created: '2024-01-01'
-          }
-        ];
-      }
-      
-      renderUsers();
-    } catch (error) {
-      console.error('Error loading users:', error);
-    }
-  }
-
-  function renderUsers() {
-    const container = document.getElementById('users-list');
-    if (!container) return;
-
-    container.innerHTML = `
-      <table class="users-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Role</th>
-            <th>Created</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${siteUsers.map(user => `
-            <tr>
-              <td>${user.id}</td>
-              <td>${user.username}</td>
-              <td>
-                <span class="password-mask">••••••••</span>
-                <span class="password-text" style="display: none;">${user.password}</span>
-                <button class="toggle-password-btn" onclick="togglePassword(this)">Show</button>
-              </td>
-              <td>${user.role}</td>
-              <td>${user.created}</td>
-              <td>
-                <button class="delete-user-btn" data-id="${user.id}" ${user.role === 'administrator' ? 'disabled' : ''}>Delete</button>
-              </td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
-    `;
-
-    window.togglePassword = function(btn) {
-      const row = btn.closest('tr');
-      const mask = row.querySelector('.password-mask');
-      const text = row.querySelector('.password-text');
-      
-      if (mask.style.display !== 'none') {
-        mask.style.display = 'none';
-        text.style.display = 'inline';
-        btn.textContent = 'Hide';
-      } else {
-        mask.style.display = 'inline';
-        text.style.display = 'none';
-        btn.textContent = 'Show';
-      }
-    };
-
-    document.querySelectorAll('.delete-user-btn:not([disabled])').forEach(btn => {
-      btn.addEventListener('click', async function() {
-        const id = parseInt(this.dataset.id);
-        if (confirm('Delete this user?')) {
-          siteUsers = siteUsers.filter(u => u.id !== id);
-          
-          const currentData = await getCurrentSiteData();
-          currentData.users = siteUsers;
-          await saveSiteData(currentData, 'User deleted');
-          renderUsers();
-        }
-      });
-    });
-  }
-
-  const createUserForm = document.getElementById('create-user-form');
-  if (createUserForm) {
-    createUserForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const username = document.getElementById('new-username')?.value.trim();
-      const password = document.getElementById('new-password')?.value.trim();
-
-      if (!username || !password) {
-        alert('Please enter username and password');
-        return;
-      }
-
-      if (siteUsers.some(u => u.username === username)) {
-        alert('Username already exists');
-        return;
-      }
-
-      const newUser = {
-        id: Date.now(),
-        username: username,
-        password: password,
-        role: 'editor',
-        created: new Date().toISOString().split('T')[0]
-      };
-
-      siteUsers.push(newUser);
-
-      const currentData = await getCurrentSiteData();
-      currentData.users = siteUsers;
-      await saveSiteData(currentData, 'User created');
-
-      createUserForm.reset();
-      renderUsers();
-    });
-  }
-
-  // =============================================
   // EMAIL RECIPIENT
   // =============================================
   const configSection = document.getElementById('section-config');
@@ -903,8 +441,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-
-  // Cargar datos iniciales
-  loadBlogPosts();
-  loadUsers();
 });
