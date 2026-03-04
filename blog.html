@@ -144,7 +144,8 @@
 
       async function loadBlogPosts() {
         try {
-          const response = await fetch('/site-data.json?t=' + Date.now());
+          const baseUrl = window.location.origin;
+          const response = await fetch(baseUrl + '/site-data.json?t=' + Date.now());
           const data = await response.json();
           
           if (data.blog && data.blog.posts && data.blog.posts.length > 0) {
@@ -191,7 +192,8 @@
 
       window.openPost = async function(postId) {
         try {
-          const response = await fetch('/site-data.json?t=' + Date.now());
+          const baseUrl = window.location.origin;
+          const response = await fetch(baseUrl + '/site-data.json?t=' + Date.now());
           const data = await response.json();
           const post = data.blog.posts.find(p => p.id === postId);
           
