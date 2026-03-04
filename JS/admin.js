@@ -168,39 +168,154 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+    // =============================================
+  // BLOG - Multi-entradas
   // =============================================
-  // BLOG
-  // =============================================
-  const blogImageInput = document.getElementById('blog-image-url');
-  const blogPreviewImg = document.getElementById('blog-preview-img');
-  if (blogImageInput && blogPreviewImg) {
-    blogImageInput.addEventListener('input', function() {
-      blogPreviewImg.src = this.value.trim() || 'IMG/bio.png';
+  
+  let blogPosts = [];
+
+  async function loadBlogPosts() {
+    try {
+      const data = await getCurrentSiteData();
+      console.log('Datos cargados:', data);
+      
+      if (data.blog && data.blog.posts) {
+        blogPosts = data.blog.posts;
+      } else {
+        blogPosts = [];
+      }
+      
+      const backup = localStorage.getItem('blog_posts_backup');
+      if (backup && blogPosts.length === 0) {
+        try {
+          blogPosts = JSON.parse(backup);
+        } catch (e) {}
+      }
+      
+      console.log('Posts cargados:', blogPosts);
+      renderBlogPosts();
+    } catch (error) {
+      console.error('Error loading blog posts:', error);
+      const container = document.getElementById('blog-posts-list');
+      if (container) {
+        container.innerHTML = '<p class="error">Error loading posts. Check console.</p>';
+      }
+    }
+  }
+
+  function renderBlogPosts() {
+    const container = document.getElementById('blog-posts-list');
+    if (!container) {
+      console.error('No se encontró el contenedor blog-posts-list');
+      return;
+    }
+
+    if (!blogPosts || blogPosts.length === 0) {
+      container.innerHTML = '<p class="no-items">No blog posts yet. Create your first post!</p>';
+      return;
+    }
+
+    const sortedPosts = [...blogPosts].sort((a, b) => {
+      return new Date(b.fecha || 0) - new Date(a.fecha || 0);
     });
+
+    let html = '';
+    sortedPosts.forEach(post => {
+      const fecha = post.fecha ? new Date(post.fecha).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }) : 'No date';
+      
+      const resumen = post.resumen || (post.texto ? post.texto.substring(0, 100) + '...' : 'No content');
+      
+      html += `
+        <div class="blog-post-item" data-id="${post.id}">
+          <div class="blog-post-preview">
+            <img src="${post.imagen || 'IMG/bio.png'}" alt="${post.titulo}" class="blog-thumbnail">
+            <div class="blog-post-info">
+              <h4>${post.titulo || 'Untitled'}</h4>
+              <div class="blog-meta">
+                <span class="blog-date">${fecha}</span>
+              </div>
+              <p class="blog-summary">${resumen}</p>
+            </div>
+          </div>
+          <div class="blog-post-actions">
+            <button class="edit-blog-btn" data-id="${post.id}">Edit</button>
+            <button class="delete-blog-btn" data-id="${post.id}">Delete</button>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+    document.querySelectorAll('.edit-blog-btn').forEach(btn => {
+      btn.addEventListener('click', () => editBlogPost(parseInt(btn.dataset.id)));
+    });
+
+    document.querySelectorAll('.delete-blog-btn').forEach(btn => {
+      btn.addEventListener('click', () => deleteBlogPost(parseInt(btn.dataset.id)));
+    });
+  }
+
+  function editBlogPost(id) {
+    const post = blogPosts.find(p => p.id === id);
+    if (!post) return;
+
+    document.getElementById('blog-title').value = post.titulo || '';
+    document.getElementById('blog-content').value = post.texto || '';
+    document.getElementById('blog-image-url').value = post.imagen || '';
+    document.getElementById('blog-date').value = post.fecha || '';
+    document.getElementById('blog-summary').value = post.resumen || '';
+    
+    const blogPreviewImg = document.getElementById('blog-preview-img');
+    if (blogPreviewImg && post.imagen) {
+      blogPreviewImg.src = post.imagen;
+      blogPreviewImg.style.display = 'block';
+    }
+    
+    document.getElementById('blog-form').dataset.editingId = id;
+    document.querySelector('#blog-form button[type="submit"]').textContent = 'Update Post';
+    document.getElementById('blog-form').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  async function deleteBlogPost(id) {
+    if (!confirm('Are you sure you want to delete this post?')) return;
+
+    blogPosts = blogPosts.filter(p => p.id !== id);
+    localStorage.setItem('blog_posts_backup', JSON.stringify(blogPosts));
+    
+    const currentData = await getCurrentSiteData();
+    currentData.blog = currentData.blog || {};
+    currentData.blog.posts = blogPosts;
+    
+    await saveSiteData(currentData, 'Blog post deleted');
+    renderBlogPosts();
   }
 
   const blogForm = document.getElementById('blog-form');
-  if (blogForm) {
-    (async function() {
-      const data = await getCurrentSiteData();
-      document.getElementById('blog-title').value = data.blog?.titulo || '';
-      document.getElementById('blog-content').value = data.blog?.texto || '';
-      document.getElementById('blog-image-url').value = data.blog?.imagen || 'IMG/bio.png';
-      if (blogPreviewImg) blogPreviewImg.src = data.blog?.imagen || 'IMG/bio.png';
-    })();
+  const blogImageInput = document.getElementById('blog-image-url');
+  const blogPreviewImg = document.getElementById('blog-preview-img');
+  const blogTitleInput = document.getElementById('blog-title');
+  const blogContentInput = document.getElementById('blog-content');
+  const blogDateInput = document.getElementById('blog-date');
+  const blogSummaryInput = document.getElementById('blog-summary');
 
-    blogForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const currentData = await getCurrentSiteData();
-      currentData.blog = {
-        titulo: document.getElementById('blog-title')?.value.trim() || '',
-        texto: document.getElementById('blog-content')?.value || '',
-        imagen: document.getElementById('blog-image-url')?.value.trim() || 'IMG/bio.png'
-      };
-      await saveSiteData(currentData, 'Blog updated');
-    });
-  }
-
+  if (blogImageInput && blogPreviewImg) {
+    blogImageInput.addEventListener('input', function() {
+      const url = this.value.trim();
+      if (url) {
+        blogPreviewImg.src = url;
+        blogPreviewImg.style.display = 'block';
+        blogPreviewImg.onerror = function() {
+          console.log('Error loading image:', url);
+        };
+      } else {
+        blogPreviewImg.src = '';
+        blogPreviewImg.style.display = 'none';
+     
   // =============================================
   // BOARDING
   // =============================================
