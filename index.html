@@ -191,36 +191,54 @@
     });
   </script>
 
-  <!-- Script para cargar contenido dinámico (SIN CACHÉ) -->
+  <!-- Script para cargar contenido dinámico - VERSIÓN CORREGIDA -->
   <script>
     async function loadContent() {
       try {
+        console.log('Cargando datos del sitio...');
         const response = await fetch('/site-data.json?t=' + Date.now());
-        const data = await response.json();
-        console.log('Datos cargados:', data);
         
+        if (!response.ok) {
+          throw new Error('Error al cargar site-data.json');
+        }
+        
+        const data = await response.json();
+        console.log('Datos cargados exitosamente:', data);
+        
+        // HERO SECTION
         if (data.hero) {
           const heroSubtitle = document.getElementById('hero-subtitle');
           const heroImage = document.getElementById('hero-image');
+          
           if (heroSubtitle && data.hero.subtitulo) {
             heroSubtitle.textContent = data.hero.subtitulo;
+            console.log('Hero subtitle actualizado:', data.hero.subtitulo);
           }
+          
           if (heroImage && data.hero.imagen) {
             heroImage.src = data.hero.imagen;
+            console.log('Hero imagen actualizada:', data.hero.imagen);
           }
         }
         
+        // ABOUT US
         if (data.about_us) {
           const aboutTitle = document.getElementById('about-title');
           const aboutContent = document.getElementById('about-content');
+          
           if (aboutTitle && data.about_us.titulo) {
             aboutTitle.textContent = data.about_us.titulo;
           }
+          
           if (aboutContent && data.about_us.texto) {
-            aboutContent.innerHTML = `<p>${data.about_us.texto.replace(/\n\n/g, '</p><p>')}</p>`;
+            // Convertir saltos de línea a párrafos
+            const paragraphs = data.about_us.texto.split('\n\n').filter(p => p.trim());
+            aboutContent.innerHTML = paragraphs.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+            console.log('About Us actualizado');
           }
         }
         
+        // REDES SOCIALES
         if (data.redes_sociales) {
           const socialLinks = document.querySelectorAll('.social a');
           if (socialLinks.length >= 5) {
@@ -229,21 +247,28 @@
             socialLinks[2].href = data.redes_sociales.tiktok || '#';
             socialLinks[3].href = data.redes_sociales.youtube || '#';
             socialLinks[4].href = data.redes_sociales.whatsapp || '#';
+            console.log('Redes sociales actualizadas');
           }
         }
         
       } catch (error) {
-        console.log('Usando contenido por defecto');
+        console.error('Error cargando datos:', error);
       }
     }
     
+    // Cargar al iniciar
     loadContent();
     
+    // Recargar cuando la página vuelve a estar visible
     document.addEventListener('visibilitychange', function() {
       if (!document.hidden) {
+        console.log('Página visible nuevamente, recargando datos...');
         loadContent();
       }
     });
+    
+    // También recargar cada 30 segundos por si acaso
+    setInterval(loadContent, 30000);
   </script>
 </body>
 </html>
