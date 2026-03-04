@@ -1,6 +1,5 @@
 /* ==================================================
    BLOG.CSS - Estilos completos para blog.html
-   Diseño basado en las capturas - Tarjetas organizadas
    ================================================== */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,7 +35,6 @@
 
 .blog-header .header-logo img { max-height: 50px; width: auto; display: block; }
 .blog-header .main-nav > ul { display: flex; list-style: none; gap: 4px; }
-.blog-header .main-nav > ul > li { display: flex; align-items: center; }
 .blog-header .main-nav a {
   padding: 8px 16px;
   text-decoration: none;
@@ -169,7 +167,7 @@
   margin: 0 auto;
 }
 
-/* ===== GRID DE POSTS - DISEÑO DE TARJETAS ===== */
+/* ===== GRID DE POSTS ===== */
 .blog-posts-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
