@@ -1,7 +1,8 @@
-// js/admin.js - Panel de Administración VERSIÓN CORREGIDA
+// js/admin.js - Panel de Administración SIN VALIDACIONES OBLIGATORIAS
+// Puedes modificar un solo campo y los demás se mantienen
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('✅ Admin panel loaded - Versión corregida');
+  console.log('✅ Admin panel loaded - Versión sin validaciones');
 
   // =============================================
   // MENÚ - CAMBIO DE SECCIONES
@@ -9,44 +10,29 @@ document.addEventListener('DOMContentLoaded', function() {
   const menuItems = document.querySelectorAll('.menu-item, .submenu li');
   const sections = document.querySelectorAll('.section');
 
-  console.log('Menú items encontrados:', menuItems.length);
-  console.log('Secciones encontradas:', sections.length);
-
   const serviceItem = document.querySelector('.menu-item.has-submenu');
   if (serviceItem) {
     serviceItem.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
       this.classList.toggle('active');
-      console.log('Submenú toggled');
     });
   }
 
   menuItems.forEach(item => {
     item.addEventListener('click', function(e) {
-      // Si es el item de servicios con submenú, no hacer nada aquí
       if (this.classList.contains('has-submenu')) return;
 
-      console.log('Clic en menú:', this.textContent.trim());
-
-      // Quitar active de todos
       menuItems.forEach(i => i.classList.remove('active'));
       this.classList.add('active');
 
-      // Ocultar todas las secciones
       sections.forEach(sec => sec.classList.add('hidden'));
 
-      // Mostrar la sección correspondiente
       const sectionKey = this.getAttribute('data-section');
       if (sectionKey) {
         const targetId = 'section-' + sectionKey;
         const target = document.getElementById(targetId);
-        if (target) {
-          target.classList.remove('hidden');
-          console.log('Mostrando sección:', targetId);
-        } else {
-          console.error('No se encontró la sección:', targetId);
-        }
+        if (target) target.classList.remove('hidden');
       }
     });
   });
@@ -116,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
-  // HERO SECTION
+  // HERO SECTION - SIN VALIDACIÓN OBLIGATORIA
   // =============================================
   const heroImageInput = document.getElementById('hero-image-url');
   const heroPreviewImg = document.getElementById('preview-img');
@@ -137,7 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (heroForm) {
-    // Cargar valores
     (async function() {
       const data = await getCurrentSiteData();
       if (heroImageInput && data.hero?.imagen) {
@@ -158,22 +143,19 @@ document.addEventListener('DOMContentLoaded', function() {
       const imageUrl = heroImageInput?.value.trim();
       const subtitle = heroSubtitleInput?.value.trim();
       
-      if (!imageUrl || !subtitle) {
-        alert('Please fill in both fields');
-        return;
-      }
-      
       const currentData = await getCurrentSiteData();
+      
       currentData.hero = {
-        imagen: imageUrl,
-        subtitulo: subtitle
+        imagen: imageUrl || currentData.hero?.imagen || 'IMG/Perro home.png',
+        subtitulo: subtitle || currentData.hero?.subtitulo || 'DOG OBEDIENCE AND SERVICE DOG TRAINING'
       };
+      
       await saveSiteData(currentData, 'Hero updated');
     });
   }
 
   // =============================================
-  // ABOUT US
+  // ABOUT US - SIN VALIDACIÓN OBLIGATORIA
   // =============================================
   const aboutTitleInput = document.getElementById('about-title');
   const aboutContentInput = document.getElementById('about-content');
@@ -193,20 +175,62 @@ document.addEventListener('DOMContentLoaded', function() {
     aboutForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      const title = aboutTitleInput?.value.trim() || 'About Us';
-      const content = aboutContentInput?.value || '';
+      const title = aboutTitleInput?.value.trim();
+      const content = aboutContentInput?.value;
       
       const currentData = await getCurrentSiteData();
+      
       currentData.about_us = {
-        titulo: title,
-        texto: content
+        titulo: title || currentData.about_us?.titulo || 'About Us',
+        texto: content || currentData.about_us?.texto || ''
       };
+      
       await saveSiteData(currentData, 'About Us updated');
     });
   }
 
   // =============================================
-  // BLOG - Multi-entradas
+  // SOCIAL LINKS - SIN VALIDACIÓN OBLIGATORIA
+  // =============================================
+  const facebookInput = document.getElementById('facebook-url');
+  const instagramInput = document.getElementById('instagram-url');
+  const tiktokInput = document.getElementById('tiktok-url');
+  const youtubeInput = document.getElementById('youtube-url');
+  const whatsappInput = document.getElementById('whatsapp-url');
+  const redesForm = document.getElementById('redes-form');
+
+  if (redesForm) {
+    (async function() {
+      const data = await getCurrentSiteData();
+      const r = data.redes_sociales || {};
+      if (facebookInput && r.facebook) facebookInput.value = r.facebook;
+      if (instagramInput && r.instagram) instagramInput.value = r.instagram;
+      if (tiktokInput && r.tiktok) tiktokInput.value = r.tiktok;
+      if (youtubeInput && r.youtube) youtubeInput.value = r.youtube;
+      if (whatsappInput && r.whatsapp) whatsappInput.value = r.whatsapp;
+    })();
+
+    redesForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const isLink = (v) => v && v !== '#';
+      
+      const currentData = await getCurrentSiteData();
+      
+      currentData.redes_sociales = {
+        facebook: isLink(facebookInput?.value) ? facebookInput.value : (currentData.redes_sociales?.facebook || '#'),
+        instagram: isLink(instagramInput?.value) ? instagramInput.value : (currentData.redes_sociales?.instagram || '#'),
+        tiktok: isLink(tiktokInput?.value) ? tiktokInput.value : (currentData.redes_sociales?.tiktok || '#'),
+        youtube: isLink(youtubeInput?.value) ? youtubeInput.value : (currentData.redes_sociales?.youtube || '#'),
+        whatsapp: isLink(whatsappInput?.value) ? whatsappInput.value : (currentData.redes_sociales?.whatsapp || '#')
+      };
+      
+      await saveSiteData(currentData, 'Social links updated');
+    });
+  }
+
+  // =============================================
+  // BLOG - SOLO REQUIERE TÍTULO Y CONTENIDO
   // =============================================
   
   let blogPosts = [];
@@ -214,8 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
   async function loadBlogPosts() {
     try {
       const data = await getCurrentSiteData();
-      console.log('Datos cargados:', data);
-      
       blogPosts = (data.blog && data.blog.posts) ? data.blog.posts : [];
       
       const backup = localStorage.getItem('blog_posts_backup');
@@ -233,10 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function renderBlogPosts() {
     const container = document.getElementById('blog-posts-list');
-    if (!container) {
-      console.warn('No container found for blog posts');
-      return;
-    }
+    if (!container) return;
 
     if (!blogPosts || blogPosts.length === 0) {
       container.innerHTML = '<p class="no-items">No blog posts yet. Create your first post!</p>';
@@ -279,7 +298,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     container.innerHTML = html;
 
-    // Agregar event listeners
     document.querySelectorAll('.edit-blog-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const id = parseInt(this.dataset.id);
@@ -342,7 +360,6 @@ document.addEventListener('DOMContentLoaded', function() {
     renderBlogPosts();
   }
 
-  // Configurar formulario de blog
   const blogForm = document.getElementById('blog-form');
   const blogImageInput = document.getElementById('blog-image-url');
   const blogPreviewImg = document.getElementById('blog-preview-img');
@@ -370,14 +387,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
       const title = blogTitleInput?.value.trim();
       const content = blogContentInput?.value.trim();
-      const imageUrl = blogImageInput?.value.trim();
-      const fecha = blogDateInput?.value || new Date().toISOString().split('T')[0];
-      const resumen = blogSummaryInput?.value.trim() || (content ? content.substring(0, 150) + '...' : '');
 
+      // Solo validar título y contenido (son obligatorios)
       if (!title || !content) {
-        alert('Please enter title and content');
+        alert('Please enter at least title and content');
         return;
       }
+
+      const imageUrl = blogImageInput?.value.trim();
+      const fecha = blogDateInput?.value || new Date().toISOString().split('T')[0];
+      const resumen = blogSummaryInput?.value.trim() || content.substring(0, 150) + '...';
 
       const editingId = blogForm.dataset.editingId;
       
@@ -413,7 +432,6 @@ document.addEventListener('DOMContentLoaded', function() {
       
       await saveSiteData(currentData, editingId ? 'Blog post updated' : 'Blog post created');
 
-      // Resetear formulario
       blogForm.reset();
       blogForm.dataset.editingId = '';
       if (blogTitleInput) blogTitleInput.value = '';
@@ -456,46 +474,397 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // =============================================
-  // BOARDING
+  // BOARDING - SIN VALIDACIÓN OBLIGATORIA
   // =============================================
+  const boardingImageInput = document.getElementById('boarding-image-url');
+  const boardingPreviewImg = document.getElementById('boarding-preview-img');
+  const boardingTitleInput = document.getElementById('boarding-title');
+  const boardingContentInput = document.getElementById('boarding-content');
   const boardingForm = document.getElementById('boarding-form');
+
+  if (boardingImageInput && boardingPreviewImg) {
+    boardingImageInput.addEventListener('input', function() {
+      const url = this.value.trim();
+      if (url) {
+        boardingPreviewImg.src = url;
+        boardingPreviewImg.style.display = 'block';
+      } else {
+        boardingPreviewImg.src = '';
+        boardingPreviewImg.style.display = 'none';
+      }
+    });
+  }
+
   if (boardingForm) {
+    (async function() {
+      const data = await getCurrentSiteData();
+      if (boardingTitleInput && data.boarding?.titulo) {
+        boardingTitleInput.value = data.boarding.titulo;
+      }
+      if (boardingContentInput && data.boarding?.texto) {
+        boardingContentInput.value = data.boarding.texto;
+      }
+      if (boardingImageInput && data.boarding?.imagen) {
+        boardingImageInput.value = data.boarding.imagen;
+        if (boardingPreviewImg) {
+          boardingPreviewImg.src = data.boarding.imagen;
+          boardingPreviewImg.style.display = 'block';
+        }
+      }
+    })();
+
     boardingForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      alert('Boarding form submitted - implementar después');
+      
+      const title = boardingTitleInput?.value.trim();
+      const content = boardingContentInput?.value;
+      const imageUrl = boardingImageInput?.value.trim();
+      
+      const currentData = await getCurrentSiteData();
+      
+      currentData.boarding = {
+        titulo: title || currentData.boarding?.titulo || 'Boarding Service',
+        texto: content || currentData.boarding?.texto || '',
+        imagen: imageUrl || currentData.boarding?.imagen || 'IMG/Boarding-Service.png'
+      };
+      
+      await saveSiteData(currentData, 'Boarding updated');
     });
   }
 
   // =============================================
-  // PUPPY
+  // PUPPY - SIN VALIDACIÓN OBLIGATORIA
   // =============================================
+  const puppyImageInput = document.getElementById('puppy-image-url');
+  const puppyPreviewImg = document.getElementById('puppy-preview-img');
+  const puppyTitleInput = document.getElementById('puppy-title');
+  const puppyContentInput = document.getElementById('puppy-content');
   const puppyForm = document.getElementById('puppy-form');
+
+  if (puppyImageInput && puppyPreviewImg) {
+    puppyImageInput.addEventListener('input', function() {
+      const url = this.value.trim();
+      if (url) {
+        puppyPreviewImg.src = url;
+        puppyPreviewImg.style.display = 'block';
+      } else {
+        puppyPreviewImg.src = '';
+        puppyPreviewImg.style.display = 'none';
+      }
+    });
+  }
+
   if (puppyForm) {
+    (async function() {
+      const data = await getCurrentSiteData();
+      if (puppyTitleInput && data.puppy?.titulo) {
+        puppyTitleInput.value = data.puppy.titulo;
+      }
+      if (puppyContentInput && data.puppy?.texto) {
+        puppyContentInput.value = data.puppy.texto;
+      }
+      if (puppyImageInput && data.puppy?.imagen) {
+        puppyImageInput.value = data.puppy.imagen;
+        if (puppyPreviewImg) {
+          puppyPreviewImg.src = data.puppy.imagen;
+          puppyPreviewImg.style.display = 'block';
+        }
+      }
+    })();
+
     puppyForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      alert('Puppy form submitted - implementar después');
+      
+      const title = puppyTitleInput?.value.trim();
+      const content = puppyContentInput?.value;
+      const imageUrl = puppyImageInput?.value.trim();
+      
+      const currentData = await getCurrentSiteData();
+      
+      currentData.puppy = {
+        titulo: title || currentData.puppy?.titulo || 'Puppy Concierge',
+        texto: content || currentData.puppy?.texto || '',
+        imagen: imageUrl || currentData.puppy?.imagen || 'IMG/Puppy-Concierge.png'
+      };
+      
+      await saveSiteData(currentData, 'Puppy Concierge updated');
     });
   }
 
   // =============================================
-  // TRAINING VIDEOS
+  // TRAINING VIDEOS - SIN VALIDACIÓN OBLIGATORIA
   // =============================================
+  let trainingVideos = [];
+
+  function renderVideos(filter = 'all') {
+    const videosList = document.getElementById('videos-list');
+    if (!videosList) return;
+
+    videosList.innerHTML = '';
+
+    const filteredVideos = filter === 'all' ? trainingVideos : trainingVideos.filter(v => v.categories?.includes(filter));
+
+    if (filteredVideos.length === 0) {
+      videosList.innerHTML = '<p class="no-videos">No videos added yet.</p>';
+      return;
+    }
+
+    filteredVideos.forEach(video => {
+      const div = document.createElement('div');
+      div.className = 'video-item';
+      div.innerHTML = `
+        <video controls src="${video.url}" style="width:100%; height:150px; object-fit:cover;"></video>
+        <div class="video-info">
+          <h4>${video.title}</h4>
+          <p>${video.description || ''}</p>
+          <div class="video-categories">${video.categories?.join(', ') || ''}</div>
+          <button class="delete-video" data-id="${video.id}">Delete</button>
+        </div>
+      `;
+      videosList.appendChild(div);
+    });
+
+    document.querySelectorAll('.delete-video').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = parseInt(this.dataset.id);
+        if (confirm('Delete this video?')) {
+          trainingVideos = trainingVideos.filter(v => v.id !== id);
+          renderVideos(filter);
+          localStorage.setItem('training_videos_backup', JSON.stringify(trainingVideos));
+          
+          const currentData = await getCurrentSiteData();
+          currentData.training_videos = trainingVideos;
+          await saveSiteData(currentData, 'Video deleted');
+        }
+      });
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      renderVideos(this.dataset.filter);
+    });
+  });
+
+  (async function loadVideos() {
+    const data = await getCurrentSiteData();
+    trainingVideos = data.training_videos || [];
+    
+    const backup = localStorage.getItem('training_videos_backup');
+    if (backup && trainingVideos.length === 0) {
+      try {
+        trainingVideos = JSON.parse(backup);
+      } catch (e) {}
+    }
+    
+    renderVideos('all');
+  })();
+
   const trainingForm = document.getElementById('training-video-form');
   if (trainingForm) {
     trainingForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      alert('Training form submitted - implementar después');
+
+      const title = document.getElementById('video-title')?.value.trim();
+      const url = document.getElementById('video-url')?.value.trim();
+      const description = document.getElementById('video-description')?.value.trim() || '';
+      const categories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
+
+      if (!title || !url) {
+        alert('Please enter title and URL');
+        return;
+      }
+      if (categories.length === 0) {
+        alert('Select at least one category');
+        return;
+      }
+
+      const newVideo = {
+        id: Date.now(),
+        title,
+        url,
+        description,
+        categories
+      };
+
+      trainingVideos.push(newVideo);
+      renderVideos('all');
+      trainingForm.reset();
+
+      localStorage.setItem('training_videos_backup', JSON.stringify(trainingVideos));
+      
+      const currentData = await getCurrentSiteData();
+      currentData.training_videos = trainingVideos;
+      await saveSiteData(currentData, 'Video added');
     });
   }
 
   // =============================================
-  // USERS
+  // USERS - Gestión de usuarios
   // =============================================
+  
+  let siteUsers = [];
+
+  async function loadUsers() {
+    try {
+      const data = await getCurrentSiteData();
+      siteUsers = data.users || [];
+      
+      if (siteUsers.length === 0) {
+        siteUsers = [
+          {
+            id: 1,
+            username: 'admin',
+            password: 'leash2025',
+            role: 'administrator',
+            created: '2024-01-01'
+          }
+        ];
+      }
+      
+      renderUsers();
+    } catch (error) {
+      console.error('Error loading users:', error);
+    }
+  }
+
+  function renderUsers() {
+    const container = document.getElementById('users-list');
+    if (!container) return;
+
+    container.innerHTML = `
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${siteUsers.map(user => `
+            <tr>
+              <td>${user.id}</td>
+              <td>${user.username}</td>
+              <td>
+                <span class="password-mask">••••••••</span>
+                <span class="password-text" style="display: none;">${user.password}</span>
+                <button class="toggle-password-btn" onclick="togglePassword(this)">Show</button>
+              </td>
+              <td>${user.role}</td>
+              <td>${user.created}</td>
+              <td>
+                <button class="delete-user-btn" data-id="${user.id}" ${user.role === 'administrator' ? 'disabled' : ''}>Delete</button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+
+    window.togglePassword = function(btn) {
+      const row = btn.closest('tr');
+      const mask = row.querySelector('.password-mask');
+      const text = row.querySelector('.password-text');
+      
+      if (mask.style.display !== 'none') {
+        mask.style.display = 'none';
+        text.style.display = 'inline';
+        btn.textContent = 'Hide';
+      } else {
+        mask.style.display = 'inline';
+        text.style.display = 'none';
+        btn.textContent = 'Show';
+      }
+    };
+
+    document.querySelectorAll('.delete-user-btn:not([disabled])').forEach(btn => {
+      btn.addEventListener('click', async function() {
+        const id = parseInt(this.dataset.id);
+        if (confirm('Delete this user?')) {
+          siteUsers = siteUsers.filter(u => u.id !== id);
+          
+          const currentData = await getCurrentSiteData();
+          currentData.users = siteUsers;
+          await saveSiteData(currentData, 'User deleted');
+          renderUsers();
+        }
+      });
+    });
+  }
+
   const createUserForm = document.getElementById('create-user-form');
   if (createUserForm) {
     createUserForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      alert('User form submitted - implementar después');
+
+      const username = document.getElementById('new-username')?.value.trim();
+      const password = document.getElementById('new-password')?.value.trim();
+
+      if (!username || !password) {
+        alert('Please enter username and password');
+        return;
+      }
+
+      if (siteUsers.some(u => u.username === username)) {
+        alert('Username already exists');
+        return;
+      }
+
+      const newUser = {
+        id: Date.now(),
+        username: username,
+        password: password,
+        role: 'editor',
+        created: new Date().toISOString().split('T')[0]
+      };
+
+      siteUsers.push(newUser);
+
+      const currentData = await getCurrentSiteData();
+      currentData.users = siteUsers;
+      await saveSiteData(currentData, 'User created');
+
+      createUserForm.reset();
+      renderUsers();
+    });
+  }
+
+  // =============================================
+  // EMAIL RECIPIENT
+  // =============================================
+  const configSection = document.getElementById('section-config');
+  if (configSection && !document.getElementById('email-config-form')) {
+    const emailField = document.createElement('div');
+    emailField.className = 'sub-section';
+    emailField.innerHTML = `
+      <h3>Email Configuration</h3>
+      <form id="email-config-form">
+        <div class="form-group">
+          <label>Contact Form Recipient Email</label>
+          <input type="email" id="email-recipient" placeholder="shawn@leashtolegacy.org">
+          <p class="note">All contact form messages will be sent to this email address</p>
+        </div>
+        <button type="submit">Save Email Settings</button>
+      </form>
+    `;
+    configSection.appendChild(emailField);
+
+    (async function() {
+      const data = await getCurrentSiteData();
+      document.getElementById('email-recipient').value = data.email_recipient || 'shawn@leashtolegacy.org';
+    })();
+
+    document.getElementById('email-config-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const currentData = await getCurrentSiteData();
+      currentData.email_recipient = document.getElementById('email-recipient').value.trim() || 'shawn@leashtolegacy.org';
+      await saveSiteData(currentData, 'Email recipient updated');
     });
   }
 
@@ -533,5 +902,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Cargar datos iniciales
   loadBlogPosts();
-  console.log('✅ Panel inicializado correctamente');
+  loadUsers();
 });
