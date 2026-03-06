@@ -44,17 +44,7 @@
     "youtube": "#",
     "whatsapp": "#"
   },
-  "training_videos": [
-    {
-      "id": 1772398871399,
-      "title": "Prueba 1",
-      "url": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "description": "prueba",
-      "categories": [
-        "basic-commands"
-      ]
-    }
-  ],
+  "training_videos": [],
   "email_recipient": "shawn@leashtolegacy.org",
   "users": [
     {
