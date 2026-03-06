@@ -44,7 +44,17 @@
     "youtube": "#",
     "whatsapp": "#"
   },
-  "training_videos": [],
+  "training_videos": [
+    {
+      "id": 1772757941739,
+      "title": "Prueb3",
+      "url": "https://res.cloudinary.com/dvfrcrjv1/video/upload/v1745209023/samples/dance-2.mp4",
+      "description": "dfijsdbfiudfsdf",
+      "categories": [
+        "potty-training"
+      ]
+    }
+  ],
   "email_recipient": "shawn@leashtolegacy.org",
   "users": [
     {
