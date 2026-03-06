@@ -1,10 +1,9 @@
 /* ==================================================
-   PUPPY-CONCIERGE.CSS - Estilos completos y corregidos
+   RESET Y BASE
    ================================================== */
+* { margin:0; padding:0; box-sizing:border-box; }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body.puppy-concierge-page {
+body {
   font-family: 'Nunito', sans-serif;
   background: #A0CDEA;
   color: #333;
@@ -13,145 +12,67 @@ body.puppy-concierge-page {
   padding-top: 80px;
 }
 
-/* Header (ya está en main.min.css, pero lo mantenemos por si acaso) */
-header {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
+/* ==================================================
+   HEADER / MENÚ (compartido)
+   ================================================== */
+header { 
+  background:#fff; 
+  box-shadow:0 2px 8px rgba(0,0,0,0.08); 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  z-index: 1000; 
 }
 
-.header-container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 12px 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 68px;
+.header-container { 
+  max-width:1300px; 
+  margin:0 auto; 
+  padding:12px 30px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:space-between; 
+  height:68px; 
 }
 
-.main-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 4px;
+.main-nav ul { display:flex; list-style:none; }
+.main-nav a { padding:8px 20px; text-decoration:none; color:#000; font-weight:600; font-size:1rem; transition:color 0.3s ease; }
+.main-nav a:hover { color:#f8dea2; }
+
+.service-link { position:relative; }
+.arrow { display:inline-block; margin-left:4px; font-size:0.85rem; transition:transform 0.3s ease; }
+.dropdown:hover .arrow { transform:rotate(180deg); }
+
+.dropdown { position:relative; }
+.dropdown-content { 
+  display:none; visibility:hidden; opacity:0; 
+  position:absolute; background:white; min-width:210px; 
+  box-shadow:0 8px 20px rgba(0,0,0,0.15); top:100%; left:0; 
+  border-radius:6px; overflow:hidden; z-index:10; 
+  transition:opacity 0.25s ease, visibility 0.25s ease; 
 }
+.dropdown:hover .dropdown-content { display:block; visibility:visible; opacity:1; }
 
-.main-nav a {
-  padding: 8px 20px;
-  text-decoration: none;
-  color: #000;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: color 0.3s;
-}
+.dropdown-content li { border-bottom:1px solid #eee; }
+.dropdown-content li:last-child { border-bottom:none; }
+.dropdown-content a { display:block; padding:14px 20px; font-weight:500; color:#333; text-decoration:none; font-size:0.98rem; }
+.dropdown-content a:hover { background:#f0f8ff; }
 
-.main-nav a:hover { color: #f8dea2; }
+.header-logo img { max-height:50px; width:auto; display:block; }
 
-.arrow {
-  display: inline-block;
-  margin-left: 4px;
-  font-size: 0.85rem;
-  transition: transform 0.3s;
-}
+.header-right { display:flex; align-items:center; gap:20px; }
+.phone { font-weight:700; font-size:0.98rem; color:#444; white-space:nowrap; }
 
-.dropdown:hover .arrow { transform: rotate(180deg); }
+.login-group { display:flex; align-items:center; gap:8px; }
+.login-icon { vertical-align:middle; }
+.login { background:#4a90e2; color:white; padding:6px 16px; border-radius:30px; text-decoration:none; font-weight:600; font-size:0.95rem; transition:background 0.3s ease; }
+.login:hover { background:#3a7bc8; }
 
-.dropdown { position: relative; }
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background: white;
-  min-width: 210px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  top: 100%;
-  left: 0;
-  border-radius: 6px;
-  overflow: hidden;
-  z-index: 10;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-content li {
-  border-bottom: 1px solid #eee;
-}
-
-.dropdown-content li:last-child { border-bottom: none; }
-
-.dropdown-content a {
-  display: block;
-  padding: 14px 20px;
-  font-weight: 500;
-  color: #333;
-  text-decoration: none;
-  font-size: 0.98rem;
-}
-
-.dropdown-content a:hover { background: #f0f8ff; }
-
-.header-logo img {
-  max-height: 50px;
-  width: auto;
-  display: block;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.phone {
-  font-weight: 700;
-  font-size: 0.98rem;
-  color: #444;
-  white-space: nowrap;
-}
-
-.login-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.login-icon { vertical-align: middle; }
-
-.login, .login-btn {
-  background: #4a90e2;
-  color: white;
-  padding: 6px 16px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: background 0.3s;
-  cursor: pointer;
-  border: none;
-}
-
-.login:hover, .login-btn:hover {
-  background: #3a7bc8;
-}
-
-.menu-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: #333;
-}
-
-/* Contenido principal */
+/* ==================================================
+   CONTENIDO PRINCIPAL (adaptado para puppy)
+   ================================================== */
 .container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -178,80 +99,184 @@ header {
   margin-bottom: 1rem;
 }
 
-/* Imágenes */
 .puppy-image {
   position: relative;
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
+}
+
+/* Imagen principal */
+.puppy-image {
+  text-align: center;                      /* centra la imagen dentro de su columna */
+  position: relative;                      /* permite posicionar elementos flotantes si los agregas después */
+}
+
+/* Imagen principal – control de tamaño grande */
+.main-image {
+  width: 140%;                             /* hace la imagen notablemente más grande que su contenedor */
+  max-width: 720px;                        /* límite superior para pantallas grandes (evita que sea gigante) */
+  height: auto;                            /* mantiene la proporción original */
+  display: block;
+  border-radius: 12px;                     /* bordes redondeados suaves */
+  margin: 0 auto;                          /* centra horizontalmente si el contenedor es más ancho */
+}
+
+/* Responsive – ajustes para móviles y tablets */
+@media (max-width: 950px) {
+  .puppy-grid {
+    grid-template-columns: 1fr;            /* pasa a una sola columna */
+    gap: 50px;
+    padding: 60px 25px;
+    text-align: center;                    /* centra todo el contenido en móvil */
+  }
+
+  .main-image {
+    width: 110%;                           /* un poco más grande que el ancho disponible en móvil */
+    max-width: 100%;                       /* no permite que se salga de la pantalla */
+  }
+}
+
+/* Contenedor padre debe ser relative para que funcione el absolute de la sombra */
+.puppy-image {
+  position: relative;          /* ← necesario para posicionar la sombra dentro de este contenedor */
   text-align: center;
 }
 
-.main-image {
-  width: 140%;
-  max-width: 720px;
-  height: auto;
-  display: block;
-  border-radius: 12px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
-/* Elementos flotantes */
+/* La sombra flotante - se posiciona encima de la imagen principal */
 .sombra-float {
-  position: absolute;
-  top: 87%;
-  left: 1%;
-  width: 150%;
-  max-width: 780px;
+  position: absolute;          /* sale del flujo normal y se posiciona respecto a .puppy-image */
+  top: 87%;                    /* ajusta según dónde quieras que "caiga" la sombra */
+  left: 1%;                   /* desplazamiento hacia la derecha - simula luz desde arriba-izquierda */
+  /* Alternativas comunes: top: 15%; left: 8%;   o   top: 18%; left: 5%; */
+
+  width: 150%;                 /* un poco más grande que la imagen principal para que se vea natural */
+  max-width: 780px;            /* límite para no desbordar demasiado en pantallas grandes */
   height: auto;
-  z-index: 1;
-  opacity: 0.8;
-  pointer-events: none;
-  filter: blur(3px) brightness(0.65);
+
+  z-index: 2;                  /* mayor que la imagen principal (que suele ser z-index: 1 o default) */
+                               /* menor que otros elementos flotantes si los agregas después (ej: perritos z=3 o 4) */
+
+  opacity: 80%;               /* transparencia típica de sombra - baja para que sea sutil */
+  pointer-events: none;        /* no bloquea clics en la imagen o texto */
+  filter: blur(3px) brightness(0.65);  /* suaviza bordes + oscurece un poco más (opcional) */
 }
 
+/* En móvil: ajustamos para que no se salga ni tape demasiado */
+@media (max-width: 950px) {
+  .sombra-float {
+    width: 118%;
+    top: 10%;
+    left: 6%;
+    opacity: 100%;             /* un poquito más visible en pantallas pequeñas */
+    filter: blur(2.5px) brightness(0.70);
+  }
+}
+
+/* Cola flotante - elemento decorativo que sale por la parte superior derecha */
 .cola-float {
-  position: absolute;
-  top: -50px;
-  right: -150px;
-  width: 180px;
+  position: absolute;           /* se posiciona respecto al contenedor .puppy-image (que debe ser relative) */
+  top: 630px;                   /* sale por arriba del contenedor (valor negativo) */
+  right: -250px;                 /* pegado a la derecha, sobresale un poco */
+  
+  width: 110px;                 /* tamaño moderado – ajusta según la proporción de tu imagen */
   height: auto;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0.95;
-  transform: rotate(15deg);
+  
+  z-index: 3;                   /* encima de la imagen principal (z=1) y de la sombra (z=2) */
+  pointer-events: none;         /* no interfiere con clics en la imagen o enlaces */
+  opacity: 0.92;                /* ligeramente transparente para integrarse mejor */
+  transform: rotate(12deg);     /* inclinación natural para que parezca "flotando" */
 }
 
+/* Ajustes para pantallas más pequeñas (móvil y tablet) */
+@media (max-width: 950px) {
+  .cola-float {
+    width: 85px;                /* más pequeña para no invadir demasiado */
+    top: -50px;
+    right: -50px;               /* menos sobresalida para evitar que se corte */
+    transform: rotate(8deg);    /* inclinación más suave en móvil */
+  }
+}
+
+/* Pata flotante - elemento decorativo en el lado izquierdo superior */
 .pata-float {
-  position: absolute;
-  top: -30px;
-  left: -300px;
-  width: 270px;
+  position: absolute;           /* se posiciona respecto al contenedor .puppy-image */
+  top: 240px;                   /* sale por arriba (valor negativo para sobresalir) */
+  left: -850px;                 /* pegado al lado izquierdo – sobresale hacia afuera */
+  
+  width: 270px;                 /* tamaño moderado – similar o un poco más pequeño que la cola */
   height: auto;
-  z-index: 5;
-  pointer-events: none;
-  opacity: 0.95;
-  transform: rotate(-10deg);
+  
+  z-index: 3;                   /* mismo nivel que la cola, encima de la imagen principal y sombra */
+  pointer-events: none;         /* no bloquea clics */
+  opacity: 0.93;                /* ligeramente transparente para que se integre */
+  transform: rotate(-10deg);    /* inclinación opuesta a la cola para simetría natural */
 }
 
+/* Ajustes para pantallas pequeñas (móvil y tablet) */
+@media (max-width: 950px) {
+  .pata-float {
+    width: 80px;                /* más pequeña para no invadir en móvil */
+    top: -45px;
+    left: -60px;                /* menos sobresalida para evitar que se corte en pantallas chicas */
+    transform: rotate(-6deg);   /* inclinación más suave */
+  }
+}
+
+/* Base para todas las huellas flotantes */
 .huella-float {
   position: absolute;
-  width: 55px;
+  width: 55px;                  /* tamaño pequeño-mediano para que parezcan pisadas reales */
   height: auto;
-  opacity: 0.65;
-  pointer-events: none;
-  z-index: 3;
-  filter: blur(0.8px);
+  opacity: 0.65;                /* semi-transparente para que se vea como huellas en el suelo */
+  pointer-events: none;         /* no interfiere con clics */
+  z-index: 2;                   /* encima de la imagen principal y sombra, pero debajo de cola/pata si tienen z=3 */
+  filter: blur(0.8px);          /* ligera suavidad para que no se vean demasiado nítidas */
 }
 
-.huella-1 { bottom: 70%; left: 120%; transform: rotate(-45deg); }
-.huella-2 { bottom: 60%; left: 110%; transform: rotate(-45deg); }
-.huella-3 { bottom: 55%; left: 130%; transform: rotate(-45deg); }
-.huella-4 { bottom: 45%; left: 120%; transform: rotate(-45deg); }
+/* Posiciones específicas para simular una secuencia de pasos (de izquierda a derecha o diagonal) */
 
-/* Footer */
+.huella-1 {
+  bottom: 70%;               /* ↑↑↑↑↑  <--- mueve más arriba o abajo aquí */
+  left: 120%;                /* ←←←←←  <--- mueve más a la izquierda o derecha aquí */
+  transform: rotate(-45deg); /* gira la huella si quieres que mire para otro lado */
+}
+
+.huella-2 {
+  bottom: 60%;               /* ajusta vertical aquí */
+  left: 110%;                  /* ajusta horizontal aquí */
+  transform: rotate(-45deg);
+}
+
+.huella-3 {
+  bottom: 55%;                /* vertical */
+  left: 130%;                 /* horizontal */
+  transform: rotate(-45deg);
+}
+
+.huella-4 {
+  bottom: 45%;                /* vertical */
+  left: 120%;                 /* horizontal */
+  transform: rotate(-45deg);
+}
+
+/* En móvil: reducimos tamaño y acercamos para que no se salgan tanto */
+@media (max-width: 950px) {
+  .huella-float {
+    width: 40px;
+    opacity: 0.70;
+    filter: blur(0.6px);
+  }
+
+  .huella-1 { bottom: 15%; left: -12%; }
+  .huella-2 { bottom: 10%; left: 8%;  }
+  .huella-3 { bottom: 6%;  left: 25%; }
+  .huella-4 { bottom: 2%;  left: 42%; }
+}
+
+/* ==================================================
+   FOOTER (unificado)
+   ================================================== */
 footer {
   background: #fcdc99;
   color: #333;
@@ -261,6 +286,7 @@ footer {
 }
 
 footer .container { max-width: 1200px; margin: 0 auto; }
+
 .footer-content { margin-bottom: 40px; }
 
 .footer-info {
@@ -269,16 +295,12 @@ footer .container { max-width: 1200px; margin: 0 auto; }
   max-width: 400px;
 }
 
-.footer-info p {
-  margin: 8px 0;
-  font-size: 0.98rem;
-  font-weight: 500;
-}
+.footer-info p { margin: 8px 0; font-size: 0.98rem; font-weight: 500; }
 
 .footer-info a {
   color: #333;
   text-decoration: none;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
 .footer-info a:hover { color: #4a90e2; }
@@ -291,18 +313,16 @@ footer .container { max-width: 1200px; margin: 0 auto; }
   margin-top: 25px;
 }
 
-.social-links a { transition: transform 0.3s; }
+.social-links a { display: block; transition: transform 0.3s ease; }
 
 .social-links img {
   width: 42px;
   height: 42px;
   object-fit: contain;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
 }
 
-.social-links a:hover img {
-  transform: translateY(-6px) scale(1.15);
-}
+.social-links a:hover img { transform: translateY(-6px) scale(1.15); }
 
 .copyright {
   font-size: 0.9rem;
@@ -313,77 +333,15 @@ footer .container { max-width: 1200px; margin: 0 auto; }
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
-  .cola-float { right: -100px; width: 150px; }
-  .pata-float { left: -200px; width: 220px; }
-}
-
-@media (max-width: 950px) {
+@media (max-width: 850px) {
   .puppy-grid {
     grid-template-columns: 1fr;
     gap: 40px;
     padding: 40px 20px;
-    text-align: center;
   }
-  
-  .puppy-text h1 { font-size: 2.4rem; }
-  
-  .main-image {
-    width: 110%;
-    max-width: 100%;
-  }
-  
-  .sombra-float {
-    width: 118%;
-    top: 10%;
-    left: 6%;
-  }
-  
-  .cola-float {
-    width: 120px;
-    top: -60px;
-    right: -40px;
-  }
-  
-  .pata-float {
-    width: 180px;
-    top: -55px;
-    left: -60px;
-  }
-  
-  .huella-float { width: 40px; }
-  .huella-1 { bottom: 15%; left: -12%; }
-  .huella-2 { bottom: 10%; left: 8%; }
-  .huella-3 { bottom: 6%; left: 25%; }
-  .huella-4 { bottom: 2%; left: 42%; }
-}
 
-@media (max-width: 768px) {
-  body.puppy-concierge-page { padding-top: 68px; }
-  
-  .menu-toggle { display: block; }
-  
-  .main-nav {
-    display: none;
-    position: absolute;
-    top: 68px;
-    left: 0;
-    width: 100%;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  
-  .main-nav.active { display: block; }
-  
-  .main-nav.active ul {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .header-right { gap: 10px; }
-  .phone { font-size: 0.85rem; }
-  
+  .puppy-text h1 { font-size: 2.4rem; }
+
   .social-links { gap: 20px; }
   .social-links img { width: 38px; height: 38px; }
 }
