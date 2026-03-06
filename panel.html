@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Leash to Legacy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS - RUTAS CORRECTAS -->
+  <link rel="stylesheet" href="css/admin-panel.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <script>
+    (function() {
+      const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+      if (!isAuthenticated) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      window.logout = function() {
+        if (confirm('Are you sure you want to logout?')) {
+          localStorage.removeItem('isAuthenticated');
+          localStorage.removeItem('user');
+          window.location.href = 'login.html';
+        }
+      };
+    })();
+  </script>
+
+  <header>
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 style="margin: 0;">Admin Panel - Leash to Legacy</h1>
+      <div>
+        <a href="index.html" style="background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-right: 10px;">Back to Home</a>
+        <button onclick="logout()" style="background: #e74c3c; padding: 10px 20px; border: none; color: white; border-radius: 5px; cursor: pointer;">Log Out</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <aside class="sidebar">
+      <ul class="menu">
+        <li class="menu-item active" data-section="home">🏠 Home</li>
+        <li class="menu-item has-submenu">
+          <span>📋 Services</span>
+          <ul class="submenu">
+            <li data-section="boarding">🐕 Boarding Service</li>
+            <li data-section="puppy">🐾 Puppy Concierge</li>
+            <li data-section="training">🎥 Training Services</li>
+          </ul>
+        </li>
+        <li class="menu-item" data-section="blog">📝 Blog</li>
+        <li class="menu-item" data-section="users">👥 Users</li>
+        <li class="menu-item" data-section="config">⚙️ Settings</li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="container">
+        <!-- SECCIÓN HOME -->
+        <div class="section" id="section-home">
+          <h2>Home Page Editor</h2>
+          
+          <div class="sub-section">
+            <h3>Hero Section</h3>
+            <form id="hero-form">
+              <div class="form-group">
+                <label>Hero Image URL</label>
+                <input type="url" id="hero-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
+              </div>
+              <div class="preview">
+                <img id="preview-img" src="" alt="Preview" style="max-width: 200px; display: none;">
+              </div>
+              <div class="form-group">
+                <label>Hero Subtitle</label>
+                <input type="text" id="hero-subtitle" placeholder="Enter hero subtitle" value="">
+              </div>
+              <button type="submit">Save Hero Changes</button>
+            </form>
+          </div>
+
+          <div class="sub-section">
+            <h3>About Us</h3>
+            <form id="about-form">
+              <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="about-title" placeholder="About Us" value="">
+              </div>
+              <div class="form-group">
+                <label>Content</label>
+                <textarea id="about-content" rows="8" placeholder="Enter about us content"></textarea>
+              </div>
+              <button type="submit">Save About Us</button>
+            </form>
+          </div>
+
+          <div class="sub-section">
+            <h3>Social Links</h3>
+            <form id="redes-form">
+              <div class="form-group">
+                <label>Facebook URL</label>
+                <input type="text" id="facebook-url" placeholder="https://facebook.com/...">
+              </div>
+              <div class="form-group">
+                <label>Instagram URL</label>
+                <input type="text" id="instagram-url" placeholder="https://instagram.com/...">
+              </div>
+              <div class="form-group">
+                <label>TikTok URL</label>
+                <input type="text" id="tiktok-url" placeholder="https://tiktok.com/...">
+              </div>
+              <div class="form-group">
+                <label>YouTube URL</label>
+                <input type="text" id="youtube-url" placeholder="https://youtube.com/...">
+              </div>
+              <div class="form-group">
+                <label>WhatsApp URL</label>
+                <input type="text" id="whatsapp-url" placeholder="https://wa.me/...">
+              </div>
+              <button type="submit">Save Social Links</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- SECCIÓN BLOG -->
+        <div class="section hidden" id="section-blog">
+          <h2>Blog Editor</h2>
+          
+          <div class="sub-section">
+            <h3>Add / Edit Blog Post</h3>
+            <form id="blog-form">
+              <div class="form-group">
+                <label>Post Title</label>
+                <input type="text" id="blog-title" placeholder="Enter post title" required>
+              </div>
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="blog-date">
+              </div>
+              <div class="form-group">
+                <label>Summary (optional - auto-generated if empty)</label>
+                <textarea id="blog-summary" rows="2" placeholder="Brief summary of the post"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Content (use blank lines for paragraphs)</label>
+                <textarea id="blog-content" rows="10" placeholder="Write your post content here..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label>Image URL</label>
+                <input type="text" id="blog-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
+              </div>
+              <div class="preview">
+                <img id="blog-preview-img" src="" alt="Preview" style="max-width: 200px; display: none;">
+              </div>
+              <button type="submit">Save Blog Post</button>
+              <button type="button" id="cancel-blog-edit" style="background: #666; margin-left: 10px;">Cancel Edit</button>
+            </form>
+          </div>
+
+          <div class="sub-section">
+            <h3>Existing Posts</h3>
+            <div id="blog-posts-list" class="blog-posts-list"></div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN BOARDING -->
+        <div class="section hidden" id="section-boarding">
+          <h2>Boarding Service</h2>
+          <form id="boarding-form">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="boarding-title" placeholder="Boarding Service" value="">
+            </div>
+            <div class="form-group">
+              <label>Content</label>
+              <textarea id="boarding-content" rows="6" placeholder="Enter boarding service description"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="url" id="boarding-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
+            </div>
+            <div class="preview">
+              <img id="boarding-preview-img" src="" alt="Preview" style="max-width: 200px; display: none;">
+            </div>
+            <button type="submit">Save Boarding Service</button>
+          </form>
+        </div>
+
+        <!-- SECCIÓN PUPPY -->
+        <div class="section hidden" id="section-puppy">
+          <h2>Puppy Concierge</h2>
+          <form id="puppy-form">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="puppy-title" placeholder="Puppy Concierge" value="">
+            </div>
+            <div class="form-group">
+              <label>Content</label>
+              <textarea id="puppy-content" rows="6" placeholder="Enter puppy concierge description"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="url" id="puppy-image-url" placeholder="https://ejemplo.com/imagen.jpg" value="">
+            </div>
+            <div class="preview">
+              <img id="puppy-preview-img" src="" alt="Preview" style="max-width: 200px; display: none;">
+            </div>
+            <button type="submit">Save Puppy Concierge</button>
+          </form>
+        </div>
+
+        <!-- SECCIÓN TRAINING -->
+        <div class="section hidden" id="section-training">
+          <h2>Training Videos</h2>
+          
+          <div class="sub-section">
+            <h3>Add New Video (from Cloudinary)</h3>
+            <form id="training-video-form">
+              <div class="form-group">
+                <label>Video Title</label>
+                <input type="text" id="video-title" placeholder="Enter video title" required>
+              </div>
+              <div class="form-group">
+                <label>Video URL (Cloudinary MP4)</label>
+                <input type="url" id="video-url" placeholder="https://res.cloudinary.com/..." required>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="video-description" rows="3" placeholder="Enter video description"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Categories</label>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="category" value="basic-commands"> Basic Commands</label>
+                  <label><input type="checkbox" name="category" value="potty-training"> Potty Training</label>
+                  <label><input type="checkbox" name="category" value="reactive-dog"> Reactive Dog</label>
+                  <label><input type="checkbox" name="category" value="fun-tricks"> Fun Tricks</label>
+                </div>
+              </div>
+              <button type="submit">Add Video</button>
+            </form>
+          </div>
+
+          <div class="sub-section">
+            <h3>Existing Videos</h3>
+            <div class="filters">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="basic-commands">Basic Commands</button>
+              <button class="filter-btn" data-filter="potty-training">Potty Training</button>
+              <button class="filter-btn" data-filter="reactive-dog">Reactive Dog</button>
+              <button class="filter-btn" data-filter="fun-tricks">Fun Tricks</button>
+            </div>
+            <div id="videos-list" class="videos-grid"></div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN USERS -->
+        <div class="section hidden" id="section-users">
+          <h2>User Management</h2>
+          
+          <div class="sub-section">
+            <h3>Create New User</h3>
+            <form id="create-user-form">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="new-username" placeholder="Enter username" required>
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="text" id="new-password" placeholder="Enter password" required>
+                <p class="note">You can see and copy the password - it's stored as plain text</p>
+              </div>
+              <button type="submit">Create User</button>
+            </form>
+          </div>
+
+          <div class="sub-section">
+            <h3>Current Users</h3>
+            <div id="users-list"></div>
+            <p class="note">Click "Show" to reveal password. Admin users cannot be deleted.</p>
+          </div>
+        </div>
+
+        <!-- SECCIÓN CONFIG -->
+        <div class="section hidden" id="section-config">
+          <h2>Settings</h2>
+          <div class="sub-section">
+            <h3>GitHub Configuration</h3>
+            <p>Changes are saved locally in your browser. To save to GitHub, configure the token in Netlify.</p>
+            <button type="button" id="btn-probar-github">Test Connection</button>
+            <p id="resultado-probar" style="margin-top: 1rem;"></p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- JavaScript - RUTA CORRECTA -->
+  <script src="js/admin.js"></script>
+</body>
+</html>
